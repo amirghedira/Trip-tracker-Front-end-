@@ -1,0 +1,14 @@
+.nav-link {
+  margin: 0 5px;
+  border-radius: 15px;
+  padding: 5px 20px;
+  color: white !important;
+}
+
+.nav-link:hover {
+  background-color: white;
+  color: #218838 !important;
+}
+.btn:focus {
+  outline: none;
+}

@@ -1,0 +1,22 @@
+.container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 500px;
+}
+.cardContainer {
+  padding: 20px;
+  border: 2px solid rgb(204, 204, 204);
+  border-radius: 5px;
+}
+.titleContainer {
+  text-align: center;
+  display: flex;
+  justify-content: center;
+}
+.label {
+  font-size: 12px;
+}
+.signupBtn {
+  width: 100%;
+}

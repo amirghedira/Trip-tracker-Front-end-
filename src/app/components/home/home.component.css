@@ -1,0 +1,16 @@
+.greeting-container {
+  display: flex;
+  justify-content: center;
+  padding-top: 20px;
+  flex-direction: column;
+  align-items: center;
+}
+.label {
+  font-size: 12px;
+}
+.radio-container {
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  flex-direction: column;
+}
