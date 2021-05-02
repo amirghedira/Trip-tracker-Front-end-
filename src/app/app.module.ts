@@ -8,6 +8,8 @@ import { SignupComponent } from './components/signup/signup.component';
 import { LoginComponent } from './components/login/login.component';
 import { NavbarComponent } from './components/navbar/navbar.component';
 import { GoogleMapsModule } from '@angular/google-maps'
+import { HttpClientModule } from '@angular/common/http';
+import { FormsModule } from '@angular/forms';
 
 
 
@@ -22,6 +24,8 @@ import { GoogleMapsModule } from '@angular/google-maps'
   imports: [
     BrowserModule,
     GoogleMapsModule,
+    HttpClientModule,
+    FormsModule,
     RouterModule.forRoot(AppRoutes, {
       scrollPositionRestoration: 'enabled',
     }),
