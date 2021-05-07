@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { LocalstorageService } from 'src/app/services/localstorage.service';
+import { UserService } from 'src/app/services/user.service';
 
 @Component({
   selector: 'app-navbar',
@@ -7,9 +9,14 @@ import { Component, OnInit } from '@angular/core';
 })
 export class NavbarComponent implements OnInit {
 
-  constructor() { }
-
+  constructor(private userService: UserService, private lStorageService: LocalstorageService) { }
+  user: any;
   ngOnInit(): void {
+    this.userService.getCurrentUser(this.lStorageService.getAccessToken()).subscribe(
+      (data) => {
+        console.log(data)
+      }
+    )
   }
 
 }
