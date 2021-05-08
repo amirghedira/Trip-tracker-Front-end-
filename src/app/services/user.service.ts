@@ -11,8 +11,12 @@ export class UserService {
   private currentUserSubject: BehaviorSubject<any>;
   public currentUser: Observable<any>;
   constructor(private httpClient: HttpClient, private lstorageService: LocalstorageService) {
-    this.currentUserSubject = new BehaviorSubject<any>(JSON.parse(localStorage.getItem('currentUser')));
-    this.currentUser = this.currentUserSubject.asObservable();
+    this.currentUserSubject = new BehaviorSubject<any>({});
+    this.getConnectedUser(lstorageService.getAccessToken()).subscribe(
+      (user) => {
+        this.currentUserSubject.next(user);
+      }
+    )
   }
 
   register(firstName: string, lastName: string, password: string, username: string,
@@ -31,10 +35,14 @@ export class UserService {
       }).pipe(map((data: any) => {
         console.log(data)
         this.lstorageService.setToken(data.accessToken)
+        this.currentUserSubject.next(data.user)
         // localStorage.setItem('access_token', )
       }))
   }
-  getCurrentUser(token: string) {
+  getCurrentUser() {
+    return this.currentUserSubject.asObservable();
+  }
+  getConnectedUser(token: string) {
     return this.httpClient.get('https://portail-2021.herokuapp.com/authorize',
       {
         headers: { 'Authorization': `Bearer ${token}` }
