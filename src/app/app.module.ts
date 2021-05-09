@@ -12,6 +12,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { FormsModule } from '@angular/forms';
 import { ProfileComponent } from './components/profile/profile.component';
 import { FavoriteComponent } from './components/favorite/favorite.component';
+import { FooterComponent } from './components/footer/footer.component';
 
 
 
@@ -24,6 +25,7 @@ import { FavoriteComponent } from './components/favorite/favorite.component';
     NavbarComponent,
     ProfileComponent,
     FavoriteComponent,
+    FooterComponent,
   ],
   imports: [
     BrowserModule,
