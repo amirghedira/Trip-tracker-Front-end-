@@ -1,4 +1,4 @@
-<div class="container-fluid" style="margin-top: 6rem;">
+<div class="container-fluid" style="padding-top: 150px">
   <div class="container">
     <div class="row flex-lg-nowrap">
       <div class="col">
@@ -9,7 +9,7 @@
                 <div class="e-profile">
                   <div class="row">
                     <div class="col-12 col-sm-auto mb-1">
-                      <div class="mx-auto" style="width: 140px;">
+                      <div class="mx-auto" style="width: 140px">
                         <div
                           class="d-flex justify-content-center align-items-center rounded"
                           style="
@@ -25,31 +25,27 @@
                         </div>
                         <div
                           class="form-group"
-                          style="margin-top: -1.5rem; margin-left: 0.4rem;"
+                          style="margin-top: -1.5rem; margin-left: 0.4rem"
                         >
                           <a>
                             <i class="fa fa-camera p-1"></i>
-                            <input
-                              type="file"
-                            />
+                            <input type="file" />
                           </a>
                         </div>
                       </div>
                     </div>
                     <div
                       class="col d-flex flex-column flex-sm-row justify-content-between"
-                      style="margin: 0;"
+                      style="margin: 0"
                     >
                       <div class="text-center text-sm-left mb-2 mb-sm-0">
                         <h4 class="pt-sm-2 pb-1 mb-0 text-nowrap">
-                        
                           <span *ngIf="!loading"
                             >{{ name | titlecase }}
                             {{ surname | titlecase }}</span
                           >
                         </h4>
                         <p class="mb-0">
-                    
                           <span *ngIf="!loading">@{{ username }}</span>
                         </p>
                         <!-- <div class="text-muted">
@@ -63,7 +59,6 @@
                         </div> -->
                       </div>
                       <div class="text-center text-sm-right">
-                  
                         <span
                           class="badge badge-secondary"
                           *ngIf="profileuser?.access === 'a' && !loading"
@@ -75,12 +70,11 @@
                           >Utilisateur</span
                         >
                         <div class="text-muted">
-                         
                           <small *ngIf="!loading"
                             >Join Date:
                             {{
                               profileuser?.joindate
-                                | date: 'longDate':'':'FR-fr'
+                                | date: "longDate":"":"FR-fr"
                             }}</small
                           >
                         </div>
@@ -91,7 +85,7 @@
                             data-toggle="modal"
                             data-target="#exampleModalCenter"
                           >
-                            Changer Mot de Passe
+                            Edit Password
                           </button>
                         </div>
                       </div>
@@ -101,9 +95,9 @@
                     <div class="tab-pane active">
                       <div class="container">
                         <hr />
-                        <div class="row" style="margin-bottom: -1rem;">
+                        <div class="row" style="margin-bottom: -1rem">
                           <div class="col-md-4 text-center">
-                            <p>Nom Complet</p>
+                            <p>Full Name</p>
                           </div>
                           <div class="col-md-4 text-center">
                             <input
@@ -111,8 +105,8 @@
                               class="form-control d-inline mr-1 mb-3"
                               type="text"
                               name="name"
-                              [(ngModel)]="profileuser.name"
-                              style="width: 10rem; margin-top: -0.2rem;"
+                              [(ngModel)]="user.firstName"
+                              style="width: 10rem; margin-top: -0.2rem"
                               #name="ngModel"
                             />
                             <input
@@ -120,43 +114,41 @@
                               class="form-control d-inline mb-3 mr-1"
                               type="text"
                               name="surname"
-                              [(ngModel)]="profileuser.surname"
-                              style="width: 10rem; margin-top: -0.2rem;"
+                              [(ngModel)]="user.lastName"
+                              style="width: 10rem; margin-top: -0.2rem"
                               #surname="ngModel"
                             />
                             <h6
                               class="py-1 mb-3"
-                              style="margin: 0;"
+                              style="margin: 0"
                               *ngIf="!editName"
                             >
-                           
-                              <span *ngIf="!loading">
-                                {{ profileuser?.name | titlecase }}
-                                {{ profileuser?.surname | titlecase }}</span
+                              <span>
+                                {{ user?.firstName | titlecase }}
+                                {{ user?.lastName | titlecase }}</span
                               >
                             </h6>
                           </div>
                           <div class="col-md-4 text-center">
                             <button
-                              class="btn btn-secondary btn-sm"
-                              style="margin-top: -0.2rem;"
+                              class="btn btn-secondary btn-sm mx-2"
+                              (click)="onEditName()"
                             >
-                              {{ editName ? 'Annuler' : 'Modifier' }}
+                              {{ editName ? "Cancel" : "Edit" }}
                             </button>
                             <button
                               *ngIf="editName"
                               type="submit"
                               class="btn btn-success btn-sm"
-                              style="margin-top: -0.2rem;"
                             >
-                              Enregistrer
+                              Save
                             </button>
                           </div>
                         </div>
                         <hr />
-                        <div class="row" style="margin-bottom: -1rem;">
+                        <div class="row" style="margin-bottom: -1rem">
                           <div class="col-md-4 text-center">
-                            <p>Nom d'utilisateur</p>
+                            <p>Username</p>
                           </div>
                           <div class="col-md-4 text-center">
                             <input
@@ -164,38 +156,37 @@
                               class="form-control d-inline mr-1 mb-3"
                               type="text"
                               name="username"
-                              [(ngModel)]="profileuser.username"
-                              style="width: 10rem; margin-top: -0.2rem;"
+                              [(ngModel)]="user.username"
+                              style="width: 10rem; margin-top: -0.2rem"
                             />
                             <h6
                               class="py-1 mb-3"
-                              style="margin: 0;"
+                              style="margin: 0"
                               *ngIf="!editUsername"
                             >
-                      
-                              <span *ngIf="!loading">
-                                {{ username }}
+                              <span>
+                                {{ user.username }}
                               </span>
                             </h6>
                           </div>
                           <div class="col-md-4 text-center">
                             <button
                               class="btn btn-secondary btn-sm"
-                              style="margin-top: -0.2rem;"
+                              style="margin-top: -0.2rem"
                             >
-                              {{ editUsername ? 'Annuler' : 'Modifier' }}
+                              {{ editUsername ? "Cancel" : "Edit" }}
                             </button>
                             <button
                               *ngIf="editUsername"
                               class="btn btn-success btn-sm"
-                              style="margin-top: -0.2rem;"
+                              style="margin-top: -0.2rem"
                             >
-                              Enregistrer
+                              Save
                             </button>
                           </div>
                         </div>
                         <hr />
-                        <div class="row" style="margin-bottom: -1rem;">
+                        <div class="row" style="margin-bottom: -1rem">
                           <div class="col-md-4 text-center"><p>Email</p></div>
                           <div class="col-md-4 text-center">
                             <input
@@ -203,121 +194,35 @@
                               class="form-control d-inline mr-1 mb-3 w-75"
                               type="text"
                               name="email"
-                              [(ngModel)]="profileuser.email"
-                              style="width: 10rem; margin-top: -0.2rem;"
+                              [(ngModel)]="user.email"
+                              style="width: 10rem; margin-top: -0.2rem"
                             />
                             <h6
                               class="py-1 mb-3"
-                              style="margin: 0;"
+                              style="margin: 0"
                               *ngIf="!editEmail"
                             >
-                            
-                              <span *ngIf="!loading"> {{ email }}</span>
+                              <span> {{ user.email }}</span>
                             </h6>
                           </div>
                           <div class="col-md-4 text-center">
                             <button
                               class="btn btn-secondary btn-sm"
-                              style="margin-top: -0.2rem;"
+                              style="margin-top: -0.2rem"
                             >
-                              {{ editEmail ? 'Annuler' : 'Modifier' }}
+                              {{ editEmail ? "Cancel" : "Edit" }}
                             </button>
                             <button
                               *ngIf="editEmail"
                               class="btn btn-success btn-sm"
-                              style="margin-top: -0.2rem;"
+                              style="margin-top: -0.2rem"
                             >
-                              Enregistrer
+                              Save
                             </button>
                           </div>
                         </div>
                         <hr />
-                        <div
-                          class="row"
-                          style="margin-bottom: -1rem;"
-                          *ngIf="profileuser?.access === 'u'"
-                        >
-                          <div class="col-md-4 text-center">
-                            <p>Numero de Permis</p>
-                          </div>
-                          <div class="col-md-4 text-center">
-                            <input
-                              *ngIf="editLicenceNum"
-                              class="form-control d-inline mr-1 mb-3"
-                              type="text"
-                              name="agenceName"
-                              [(ngModel)]="profileuser.licencenum"
-                              style="width: 10rem; margin-top: -0.2rem;"
-                            />
-                            <h6
-                              class="py-1 mb-3"
-                              style="margin: 0;"
-                              *ngIf="!editLicenceNum"
-                            >
-                              {{ licencenum }}
-                            </h6>
-                          </div>
-                          <div class="col-md-4 text-center">
-                            <button
-                              class="btn btn-secondary btn-sm"
-                              style="margin-top: -0.2rem;"
-                            >
-                              {{ editLicenceNum ? 'Annuler' : 'Modifier' }}
-                            </button>
-                            <button
-                              *ngIf="editLicenceNum"
-                            
-                              class="btn btn-success btn-sm"
-                              style="margin-top: -0.2rem;"
-                            >
-                              Enregistrer
-                            </button>
-                          </div>
-                        </div>
-                        <div
-                          class="row"
-                          style="margin-bottom: -1rem;"
-                          *ngIf="profileuser?.access === 'a'"
-                        >
-                          <div class="col-md-4 text-center">
-                            <p>Nom de l'agence</p>
-                          </div>
-                          <div class="col-md-4 text-center">
-                            <input
-                              *ngIf="editAgencename"
-                              class="form-control d-inline mr-1 mb-3"
-                              type="text"
-                              name="agenceName"
-                              [(ngModel)]="profileuser.agencename"
-                              style="width: 10rem; margin-top: -0.2rem;"
-                            />
-                            <h6
-                              class="py-1 mb-3"
-                              style="margin: 0;"
-                              *ngIf="!editAgencename"
-                            >
-                              {{ agenceName }}
-                            </h6>
-                          </div>
-                          <div class="col-md-4 text-center">
-                            <button
-                              class="btn btn-secondary btn-sm"
-                              style="margin-top: -0.2rem;"
-                            >
-                              {{ editAgencename ? 'Annuler' : 'Modifier' }}
-                            </button>
-                            <button
-                              *ngIf="editAgencename"
-                           
-                              class="btn btn-success btn-sm"
-                              style="margin-top: -0.2rem;"
-                            >
-                              Enregistrer
-                            </button>
-                          </div>
-                        </div>
-                        <hr />
-                        <div class="row" style="margin-bottom: -1rem;">
+                        <div class="row" style="margin-bottom: -1rem">
                           <div class="col-md-4 text-center">
                             <p>Adresse</p>
                           </div>
@@ -327,36 +232,35 @@
                               class="form-control d-inline mr-1 mb-3"
                               type="text"
                               name="address"
-                              [(ngModel)]="profileuser.address"
-                              style="width: 10rem; margin-top: -0.2rem;"
+                              [(ngModel)]="user.address"
+                              style="width: 10rem; margin-top: -0.2rem"
                             />
                             <h6
                               class="py-1 mb-3"
-                              style="margin: 0;"
+                              style="margin: 0"
                               *ngIf="!editAddress"
                             >
-                              {{ address }}
+                              {{ user.address }}
                             </h6>
                           </div>
                           <div class="col-md-4 text-center">
                             <button
                               class="btn btn-secondary btn-sm"
-                              style="margin-top: -0.2rem;"
+                              style="margin-top: -0.2rem"
                             >
-                              {{ editAddress ? 'Annuler' : 'Modifier' }}
+                              {{ editAddress ? "Cancel" : "Edit" }}
                             </button>
                             <button
                               *ngIf="editAddress"
-                          
                               class="btn btn-success btn-sm"
-                              style="margin-top: -0.2rem;"
+                              style="margin-top: -0.2rem"
                             >
-                              Enregistrer
+                              Save
                             </button>
                           </div>
                         </div>
                         <hr />
-                        <div class="row" style="margin-bottom: -1rem;">
+                        <div class="row" style="margin-bottom: -1rem">
                           <div class="col-md-4 text-center">
                             <p>Numéro de téléphone</p>
                           </div>
@@ -366,36 +270,35 @@
                               class="form-control d-inline mr-1 mb-3"
                               type="text"
                               name="phone"
-                              [(ngModel)]="profileuser.phonenum"
-                              style="width: 10rem; margin-top: -0.2rem;"
+                              [(ngModel)]="user.phoneNumber"
+                              style="width: 10rem; margin-top: -0.2rem"
                             />
                             <h6
                               class="py-1 mb-3"
-                              style="margin: 0;"
+                              style="margin: 0"
                               *ngIf="!editPhone"
                             >
-                              {{ phone }}
+                              {{ user.phoneNumber }}
                             </h6>
                           </div>
                           <div class="col-md-4 text-center">
                             <button
                               class="btn btn-secondary btn-sm"
-                              style="margin-top: -0.2rem;"
+                              style="margin-top: -0.2rem"
                             >
-                              {{ editPhone ? 'Annuler' : 'Modifier' }}
+                              {{ editPhone ? "Cancel" : "Edit" }}
                             </button>
                             <button
                               *ngIf="editPhone"
-                    
                               class="btn btn-success btn-sm"
-                              style="margin-top: -0.2rem;"
+                              style="margin-top: -0.2rem"
                             >
-                              Enregistrer
+                              Save
                             </button>
                           </div>
                         </div>
                         <hr />
-                        <div class="row" style="margin-bottom: -1rem;">
+                        <!-- <div class="row" style="margin-bottom: -1rem">
                           <div class="col-md-4 text-center">
                             <p>Date De Naissance</p>
                           </div>
@@ -405,78 +308,33 @@
                               class="form-control d-inline mr-1 mb-3"
                               type="text"
                               name="birth"
-                              [(ngModel)]="profileuser.birthday"
-                              style="width: 10rem; margin-top: -0.2rem;"
+                              [(ngModel)]="user.birthDate"
+                              style="width: 10rem; margin-top: -0.2rem"
                             />
                             <h6
                               class="py-1 mb-3"
-                              style="margin: 0;"
+                              style="margin: 0"
                               *ngIf="!editBirthday"
                             >
-                              {{ birthday }}
+                              {{ user.birthDate }}
                             </h6>
                           </div>
                           <div class="col-md-4 text-center">
                             <button
                               class="btn btn-secondary btn-sm"
-                              style="margin-top: -0.2rem;"
+                              style="margin-top: -0.2rem"
                             >
-                              {{ editBirthday ? 'Annuler' : 'Modifier' }}
+                              {{ editBirthday ? "Cancel" : "Edit" }}
                             </button>
                             <button
                               *ngIf="editBirthday"
-                          
                               class="btn btn-success btn-sm"
-                              style="margin-top: -0.2rem;"
-                            >
-                              Enregistrer
-                            </button>
-                          </div>
-                        </div>
-                        <hr />
-                        <div
-                          class="row"
-                          style="margin-bottom: -1rem;"
-                          *ngIf="profileuser?.access === 'u'"
-                        >
-                          <div class="col-md-4 text-center">
-                            <p>Numero Carte Identité</p>
-                          </div>
-                          <div class="col-md-4 text-center">
-                            <input
-                              *ngIf="editNcin"
-                              class="form-control d-inline mr-1 mb-3"
-                              type="text"
-                              name="birth"
-                              [(ngModel)]="profileuser.ncin"
-                              style="width: 10rem; margin-top: -0.2rem;"
-                            />
-                            <h6
-                              class="py-1 mb-3"
-                              style="margin: 0;"
-                              *ngIf="!editNcin"
-                            >
-                              {{ numCin }}
-                            </h6>
-                          </div>
-                          <div class="col-md-4 text-center">
-                            <button
-                              class="btn btn-secondary btn-sm"
-                              style="margin-top: -0.2rem;"
-                            >
-                              {{ editNcin ? 'Annuler' : 'Modifier' }}
-                            </button>
-                            <button
-                              *ngIf="editNcin"
-                           
-                              class="btn btn-success btn-sm"
-                              style="margin-top: -0.2rem;"
+                              style="margin-top: -0.2rem"
                             >
                               Save
                             </button>
                           </div>
-                        </div>
-                        <hr *ngIf="profileuser?.access === 'u'" />
+                        </div> -->
                       </div>
                     </div>
                   </div>
@@ -515,11 +373,7 @@
         </button>
       </div>
       <div class="modal-body">
-        <form
-          id="register-form"
-          role="form"
-          class="form"
-        >
+        <form id="register-form" role="form" class="form">
           <div class="form-group">
             <div class="input-group">
               <input
@@ -577,11 +431,7 @@
         </form>
       </div>
       <div class="modal-footer">
-        <button
-          type="button"
-          class="btn btn-secondary"
-          data-dismiss="modal"
-        >
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">
           Fermer
         </button>
         <button

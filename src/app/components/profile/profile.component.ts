@@ -1,11 +1,13 @@
-import { Component, OnInit } from '@angular/core';
-
+import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Subscription } from 'rxjs';
+import { LocalstorageService } from 'src/app/services/localstorage.service';
+import { UserService } from 'src/app/services/user.service';
 @Component({
   selector: 'app-profile',
   templateUrl: './profile.component.html',
   styleUrls: ['./profile.component.css']
 })
-export class ProfileComponent implements OnInit {
+export class ProfileComponent implements OnInit, OnDestroy {
   profileuser;
   user;
   oldPassword: string;
@@ -39,9 +41,24 @@ export class ProfileComponent implements OnInit {
   imageUrl: string;
   loading = true;
   private userId: string;
-  constructor() { }
+  userSubscription: Subscription
+
+  constructor(private userService: UserService, private lStorageService: LocalstorageService) { }
 
   ngOnInit(): void {
+    if (this.lStorageService.getAccessToken())
+      this.userSubscription = this.userService.getCurrentUser().subscribe(
+        (data) => {
+          console.log(data)
+          this.user = data;
+        }
+      )
+  }
+  onEditName() {
+    this.editName = !this.editName;
+  }
+  ngOnDestroy() {
+    this.userSubscription.unsubscribe();
   }
 
 }

@@ -11,6 +11,7 @@ import { GoogleMapsModule } from '@angular/google-maps'
 import { HttpClientModule } from '@angular/common/http';
 import { FormsModule } from '@angular/forms';
 import { ProfileComponent } from './components/profile/profile.component';
+import { FavoriteComponent } from './components/favorite/favorite.component';
 
 
 
@@ -22,6 +23,7 @@ import { ProfileComponent } from './components/profile/profile.component';
     LoginComponent,
     NavbarComponent,
     ProfileComponent,
+    FavoriteComponent,
   ],
   imports: [
     BrowserModule,

@@ -14,12 +14,13 @@ export class NavbarComponent implements OnInit, OnDestroy {
   user: any;
   userSubscription: Subscription
   ngOnInit(): void {
-    this.userSubscription = this.userService.getCurrentUser().subscribe(
-      (data) => {
-        console.log(data)
-        this.user = data;
-      }
-    )
+    if (this.lStorageService.getAccessToken())
+      this.userSubscription = this.userService.getCurrentUser().subscribe(
+        (data) => {
+          console.log(data)
+          this.user = data;
+        }
+      )
   }
   ngOnDestroy() {
     this.userSubscription.unsubscribe();

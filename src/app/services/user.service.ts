@@ -36,8 +36,10 @@ export class UserService {
         console.log(data)
         this.lstorageService.setToken(data.accessToken)
         this.currentUserSubject.next(data.user)
-        // localStorage.setItem('access_token', )
       }))
+  }
+  logout() {
+    this.lstorageService.clearToken();
   }
   getCurrentUser() {
     return this.currentUserSubject.asObservable();
@@ -48,4 +50,10 @@ export class UserService {
         headers: { 'Authorization': `Bearer ${token}` }
       })
   }
+  // updateUser(userId: string, path: string, value: string) {
+  //   return this.httpClient.patch(`https://portail-2021.herokuapp.com/user/${userId}`,
+  //     {
+  //       headers: { 'Authorization': `Bearer ${token}` }
+  //     })
+  // }
 }
