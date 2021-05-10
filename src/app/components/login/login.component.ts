@@ -11,6 +11,7 @@ import { Router } from '@angular/router';
 export class LoginComponent implements OnInit {
   username: string;
   password: string;
+  errorMessage: boolean = false;
   constructor(private userService: UserService, private lStorageService: LocalstorageService, private router: Router) { }
 
   ngOnInit(): void {
@@ -18,10 +19,12 @@ export class LoginComponent implements OnInit {
   login() {
     this.userService.login(this.username, this.password).subscribe(
       (data: any) => {
-        this.router.navigate(['/home']);
+        // this.router.navigate(['/home']);
+        window.location.href = '/'
       },
       (err) => {
         console.log(err)
+        this.errorMessage = true
       }
     )
   }

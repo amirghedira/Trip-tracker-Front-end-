@@ -59,25 +59,6 @@
                         </div> -->
                       </div>
                       <div class="text-center text-sm-right">
-                        <span
-                          class="badge badge-secondary"
-                          *ngIf="profileuser?.access === 'a' && !loading"
-                          >Chef d'agence</span
-                        >
-                        <span
-                          class="badge badge-secondary"
-                          *ngIf="profileuser?.access === 'u'!; loading"
-                          >Utilisateur</span
-                        >
-                        <div class="text-muted">
-                          <small *ngIf="!loading"
-                            >Join Date:
-                            {{
-                              profileuser?.joindate
-                                | date: "longDate":"":"FR-fr"
-                            }}</small
-                          >
-                        </div>
                         <div class="text-muted">
                           <button
                             type="button"
@@ -140,12 +121,13 @@
                               *ngIf="editName"
                               type="submit"
                               class="btn btn-success btn-sm"
+                              (click)="updateName()"
                             >
                               Save
                             </button>
                           </div>
                         </div>
-                        <hr />
+                        <!-- <hr />
                         <div class="row" style="margin-bottom: -1rem">
                           <div class="col-md-4 text-center">
                             <p>Username</p>
@@ -184,7 +166,7 @@
                               Save
                             </button>
                           </div>
-                        </div>
+                        </div> -->
                         <hr />
                         <div class="row" style="margin-bottom: -1rem">
                           <div class="col-md-4 text-center"><p>Email</p></div>
@@ -207,8 +189,9 @@
                           </div>
                           <div class="col-md-4 text-center">
                             <button
-                              class="btn btn-secondary btn-sm"
+                              class="btn btn-secondary btn-sm mx-2"
                               style="margin-top: -0.2rem"
+                              (click)="onEditEmail()"
                             >
                               {{ editEmail ? "Cancel" : "Edit" }}
                             </button>
@@ -216,6 +199,7 @@
                               *ngIf="editEmail"
                               class="btn btn-success btn-sm"
                               style="margin-top: -0.2rem"
+                              (click)="updateEmail()"
                             >
                               Save
                             </button>
@@ -247,13 +231,15 @@
                             <button
                               class="btn btn-secondary btn-sm"
                               style="margin-top: -0.2rem"
+                              (click)="onEditAddress()"
                             >
                               {{ editAddress ? "Cancel" : "Edit" }}
                             </button>
                             <button
                               *ngIf="editAddress"
-                              class="btn btn-success btn-sm"
+                              class="btn btn-success btn-sm mx-2"
                               style="margin-top: -0.2rem"
+                              (click)="updateAddress()"
                             >
                               Save
                             </button>
@@ -262,7 +248,7 @@
                         <hr />
                         <div class="row" style="margin-bottom: -1rem">
                           <div class="col-md-4 text-center">
-                            <p>Numéro de téléphone</p>
+                            <p>Phone Number</p>
                           </div>
                           <div class="col-md-4 text-center">
                             <input
@@ -283,8 +269,9 @@
                           </div>
                           <div class="col-md-4 text-center">
                             <button
-                              class="btn btn-secondary btn-sm"
+                              class="btn btn-secondary btn-sm mx-2"
                               style="margin-top: -0.2rem"
+                              (click)="onEditPhone()"
                             >
                               {{ editPhone ? "Cancel" : "Edit" }}
                             </button>
@@ -292,6 +279,7 @@
                               *ngIf="editPhone"
                               class="btn btn-success btn-sm"
                               style="margin-top: -0.2rem"
+                              (click)="updatePhone()"
                             >
                               Save
                             </button>
@@ -360,9 +348,7 @@
   <div class="modal-dialog modal-dialog-centered" role="document">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLongTitle">
-          Changer Mot de Passe
-        </h5>
+        <h5 class="modal-title" id="exampleModalLongTitle">Edit Password</h5>
         <button
           type="button"
           class="close"
@@ -379,7 +365,7 @@
               <input
                 id="password"
                 name="password"
-                placeholder="Mot de Passe Actuel"
+                placeholder="Current Password"
                 class="form-control"
                 required
                 type="password"
@@ -394,7 +380,7 @@
               <input
                 id="newpassword"
                 name="newpassword"
-                placeholder="Taper Le Nouveau Mot de Passe"
+                placeholder="New Password"
                 class="form-control"
                 type="password"
                 required
@@ -409,7 +395,7 @@
               <input
                 id="repassword"
                 name="repassword"
-                placeholder="Retaper Le Mot de Passe"
+                placeholder="Retype Password"
                 class="form-control"
                 required
                 type="password"

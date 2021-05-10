@@ -11,12 +11,18 @@ export class UserService {
   private currentUserSubject: BehaviorSubject<any>;
   public currentUser: Observable<any>;
   constructor(private httpClient: HttpClient, private lstorageService: LocalstorageService) {
+    // console.log(lstorageService.getAccessToken())
     this.currentUserSubject = new BehaviorSubject<any>({});
-    this.getConnectedUser(lstorageService.getAccessToken()).subscribe(
-      (user) => {
-        this.currentUserSubject.next(user);
-      }
-    )
+    if (lstorageService.getAccessToken())
+      this.getConnectedUser(lstorageService.getAccessToken()).subscribe(
+        (user) => {
+          console.log(user)
+          this.currentUserSubject.next(user);
+        },
+        (err) => {
+          console.log(err)
+        }
+      )
   }
 
   register(firstName: string, lastName: string, password: string, username: string,
@@ -36,10 +42,12 @@ export class UserService {
         console.log(data)
         this.lstorageService.setToken(data.accessToken)
         this.currentUserSubject.next(data.user)
+        console.log(data.user)
       }))
   }
   logout() {
     this.lstorageService.clearToken();
+    window.location.href = '/login'
   }
   getCurrentUser() {
     return this.currentUserSubject.asObservable();
@@ -50,10 +58,12 @@ export class UserService {
         headers: { 'Authorization': `Bearer ${token}` }
       })
   }
-  // updateUser(userId: string, path: string, value: string) {
-  //   return this.httpClient.patch(`https://portail-2021.herokuapp.com/user/${userId}`,
-  //     {
-  //       headers: { 'Authorization': `Bearer ${token}` }
-  //     })
-  // }
+  updateUser(userId: string, path: string, value: string) {
+    return this.httpClient.patch(`https://portail-2021.herokuapp.com/user/${userId}`,
+      [{
+        "op": "replace",
+        "path": `/${path}`,
+        "value": value
+      }])
+  }
 }

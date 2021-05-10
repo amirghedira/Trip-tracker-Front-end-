@@ -1,23 +1,48 @@
-<div class="container container-fluid">
+<div class="container container-fluid" style="min-height: 100vh">
   <div class="row cardContainer">
     <div class="col">
-      <div class="row titleContainer">
-        <h2 class="title">Login</h2>
+      <div class="row">
+        <div class="col logo-container">
+          <img src="../../../assets/img/tript.png" style="height: 150px" />
+        </div>
       </div>
       <div class="row">
         <div class="col">
           <div class="form-group">
             <label class="label" for="email">Username or Email address</label>
-            <input type="email" class="form-control" [(ngModel)]="username" id="email" />
+            <input
+              type="email"
+              class="form-control"
+              [(ngModel)]="username"
+              id="email"
+              (focus)="errorMessage = false"
+            />
           </div>
           <div class="form-group">
             <label class="label" for="password">Password</label>
-            <input type="password" class="form-control" [(ngModel)]="password" id="password" />
+            <input
+              type="password"
+              class="form-control"
+              [(ngModel)]="password"
+              id="password"
+              (focus)="errorMessage = false"
+            />
           </div>
           <div class="row">
             <div class="col-md-12">
-              <button (click)=(login()) type="submit" class="btn btn-success signupBtn">
-                Sign in
+              <div *ngIf="errorMessage" class="alert alert-danger" role="alert">
+                Username or password incorrect!
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-12">
+              <button
+                (click)="login()"
+                type="submit"
+                class="btn btn-success signupBtn"
+              >
+                Log In
               </button>
             </div>
           </div>

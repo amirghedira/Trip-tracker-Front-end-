@@ -40,8 +40,7 @@ export class SignupComponent implements OnInit {
             console.log(err)
           }
         )
-    else
-      console.log('non mr')
+
   }
 
 

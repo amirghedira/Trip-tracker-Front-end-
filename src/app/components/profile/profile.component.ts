@@ -28,7 +28,7 @@ export class ProfileComponent implements OnInit, OnDestroy {
   editLicenceNum = false;
   editNcin = false;
   username: string;
-  name: string;
+  firstName: string;
   surname: string;
   email: string;
   agenceName: string;
@@ -48,14 +48,73 @@ export class ProfileComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     if (this.lStorageService.getAccessToken())
       this.userSubscription = this.userService.getCurrentUser().subscribe(
-        (data) => {
+        (data: any) => {
           console.log(data)
           this.user = data;
+          this.firstName = data.firstName
         }
       )
   }
   onEditName() {
     this.editName = !this.editName;
+  }
+  updateName() {
+    this.userService.updateUser(this.user.id, "firstName", this.user.firstName).subscribe(
+      (user) => {
+        console.log(user)
+      },
+      (err) => {
+        console.log(err)
+      }
+    )
+    this.userService.updateUser(this.user.id, "lastName", this.user.firstName).subscribe(
+      (user) => {
+        console.log(user)
+      },
+      (err) => {
+        console.log(err)
+      }
+    )
+  }
+  onEditEmail() {
+    this.editEmail = !this.editEmail
+  }
+  updateEmail() {
+    this.userService.updateUser(this.user.id, "email", this.user.firstName).subscribe(
+      (user) => {
+        console.log(user)
+      },
+      (err) => {
+        console.log(err)
+      }
+    )
+  }
+  onEditAddress() {
+    this.editAddress = !this.editAddress
+  }
+  updateAddress() {
+    this.userService.updateUser(this.user.id, "address", this.user.firstName).subscribe(
+      (user) => {
+        console.log(user)
+      },
+      (err) => {
+        console.log(err)
+      }
+    )
+  }
+
+  onEditPhone() {
+    this.editPhone = !this.editPhone
+  }
+  updatePhone() {
+    this.userService.updateUser(this.user.id, "phoneNumber", this.user.firstName).subscribe(
+      (user) => {
+        console.log(user)
+      },
+      (err) => {
+        console.log(err)
+      }
+    )
   }
   ngOnDestroy() {
     this.userSubscription.unsubscribe();

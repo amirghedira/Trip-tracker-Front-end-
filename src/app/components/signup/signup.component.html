@@ -1,4 +1,4 @@
-<div class="container container-fluid">
+<div class="container container-fluid" style="min-height: 100vh">
   <div class="row cardContainer">
     <div class="col">
       <div class="row titleContainer">
@@ -10,13 +10,23 @@
             <div class="col-md-6">
               <div class="form-group">
                 <label class="label" for="firstName">First Name</label>
-                <input type="text" class="form-control" [(ngModel)]="firstName" id="firstName" />
+                <input
+                  type="text"
+                  class="form-control"
+                  [(ngModel)]="firstName"
+                  id="firstName"
+                />
               </div>
             </div>
             <div class="col-md-6">
               <div class="form-group">
                 <label class="label" for="lastName">Last Name</label>
-                <input type="text" class="form-control" [(ngModel)]="lastName" id="lastName" />
+                <input
+                  type="text"
+                  class="form-control"
+                  [(ngModel)]="lastName"
+                  id="lastName"
+                />
               </div>
             </div>
           </div>
@@ -24,31 +34,46 @@
             <div class="col-md-6">
               <div class="form-group">
                 <label class="label" for="email">Email</label>
-                <input type="email" class="form-control" [(ngModel)]="email" id="email" />
+                <input
+                  type="email"
+                  class="form-control"
+                  [(ngModel)]="email"
+                  id="email"
+                />
               </div>
             </div>
             <div class="col-md-6">
               <div class="form-group">
                 <label class="label" for="username">Username</label>
-                <input type="email" class="form-control" [(ngModel)]="username" id="username" />
+                <input
+                  type="email"
+                  class="form-control"
+                  [(ngModel)]="username"
+                  id="username"
+                />
               </div>
             </div>
           </div>
-             <div class="row">
+          <div class="row">
             <div class="col-md-6">
               <div class="form-group">
-                 <label class="label" for="gender">Gender</label>
-                        <select class="form-control" [(ngModel)]="gender" name="gender">
-                            <option>MALE</option>
-                            <option>FEMALE</option>
-                            <option>OTHER</option>
-                        </select>
+                <label class="label" for="gender">Gender</label>
+                <select class="form-control" [(ngModel)]="gender" name="gender">
+                  <option>MALE</option>
+                  <option>FEMALE</option>
+                  <option>OTHER</option>
+                </select>
               </div>
             </div>
             <div class="col-md-6">
-                  <div class="form-group">
+              <div class="form-group">
                 <label class="label" for="phoneNumber">Phone Number</label>
-                <input type="text" class="form-control" [(ngModel)]="phoneNumber" id="phoneNumber" />
+                <input
+                  type="text"
+                  class="form-control"
+                  [(ngModel)]="phoneNumber"
+                  id="phoneNumber"
+                />
               </div>
             </div>
           </div>
@@ -56,27 +81,46 @@
             <div class="col-md-6">
               <div class="form-group">
                 <label class="label" for="password">Password</label>
-                <input type="password" class="form-control" [(ngModel)]="password" id="password" />
+                <input
+                  type="password"
+                  class="form-control"
+                  [(ngModel)]="password"
+                  id="password"
+                />
               </div>
             </div>
             <div class="col-md-6">
               <div class="form-group">
                 <label class="label" for="repassword">Re Password</label>
-                <input type="password" class="form-control" [(ngModel)]="repassword" id="repassword" />
-              </div>
-            </div>
-          </div>
-              <div class="row">
-            <div class="col-md-12">
-              <div class="form-group">
-                <label class="label" for="address">Address</label>
-                <input type="text" class="form-control" [(ngModel)]="address" id="address" />
+                <input
+                  type="password"
+                  class="form-control"
+                  [(ngModel)]="repassword"
+                  id="repassword"
+                />
               </div>
             </div>
           </div>
           <div class="row">
             <div class="col-md-12">
-              <button (click)=(register()) type="submit" class="btn btn-success signupBtn">
+              <div class="form-group">
+                <label class="label" for="address">Address</label>
+                <input
+                  type="text"
+                  class="form-control"
+                  [(ngModel)]="address"
+                  id="address"
+                />
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-12">
+              <button
+                (click)="register()"
+                type="submit"
+                class="btn btn-success signupBtn"
+              >
                 Sign in
               </button>
             </div>
