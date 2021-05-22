@@ -12,15 +12,16 @@
                       <div class="mx-auto" style="width: 140px">
                         <div
                           class="d-flex justify-content-center align-items-center rounded"
-                          style="
-                            height: 140px;
-                            background-color: rgb(233, 236, 239);
-                          "
+                          style="height: 140px"
                         >
                           <img
                             class="image-fluid"
-                            [src]="imageUrl"
-                            *ngIf="!loading"
+                            [src]="user.avatar"
+                            style="
+                              height: 150px;
+                              width: 150px;
+                              border-radius: 50%;
+                            "
                           />
                         </div>
                         <div
@@ -28,8 +29,9 @@
                           style="margin-top: -1.5rem; margin-left: 0.4rem"
                         >
                           <a>
-                            <i class="fa fa-camera p-1"></i>
-                            <input type="file" />
+                            <i class="fa fa-camera p-1">
+                              <input type="file" style="display: none" />
+                            </i>
                           </a>
                         </div>
                       </div>
@@ -38,6 +40,7 @@
                       class="col d-flex flex-column flex-sm-row justify-content-between"
                       style="margin: 0"
                     >
+                      <div class="text-center text-sm-left mb-2 mb-sm-0"></div>
                       <div class="text-center text-sm-right">
                         <div class="text-muted">
                           <button
