@@ -16,16 +16,14 @@ export class HomeComponent implements OnInit, OnDestroy {
   budget: number
   days: number
   currency: string = 'TND'
+  loading: boolean = true
+  suggestionError: boolean = false
+  fees: number
+  rest: number
+  hotelOffer: any
+  restaurants = []
   zoom = 12
-  markers = [{
-    position: {
-      lng: 30.0001,
-      lat: 36.025
-    },
-    options: {},
-    title: 'marker test',
-    label: { text: 'label test', color: 'red' },
-  }]
+  markers = []
   center: google.maps.LatLngLiteral
   options: google.maps.MapOptions = {
     scrollwheel: false,
@@ -84,10 +82,17 @@ export class HomeComponent implements OnInit, OnDestroy {
   }
 
   onGetSuggestion() {
+    this.loading = true
+    this.suggestionError = false
     this.spinner.show();
     this.userService.getSuggestions(this.budget, this.days, this.currency)
       .subscribe((suggestion: any) => {
+        this.loading = false
         console.log(suggestion)
+        this.fees = suggestion.startingBudget - suggestion.rest
+        this.rest = suggestion.rest
+        this.hotelOffer = suggestion.hotelOffer
+        this.restaurants = suggestion.restaurants
         this.markers = [{
           position: {
             lng: suggestion.hotelOffer.hotel.longitude,
@@ -95,10 +100,10 @@ export class HomeComponent implements OnInit, OnDestroy {
           },
           options: {},
           title: suggestion.hotelOffer.hotel.name,
-          label: { text: 'hotel', color: 'red' },
         }]
       }, (err) => {
         console.log(err)
+        this.suggestionError = true
         this.spinner.hide();
       }, () => {
         this.spinner.hide();

@@ -117,13 +117,80 @@
               Search
             </button>
           </div>
-          <div class="row"></div>
+          <div *ngIf="!loading" class="row">
+            <div class="col-md-12">
+              <div class="row">
+                <hr width="200px" />
+              </div>
+              <div class="row suggestion-card">
+                <p>Your trip fees: {{ fees.toFixed(2) }}</p>
+                <p>You still have: {{ rest.toFixed(2) }}</p>
+                <hr width="200px" />
+                <h5>Hotel</h5>
+                <p>Name: {{ hotelOffer.hotel.name }}</p>
+                <p>Rating: {{ hotelOffer.hotel.rating }}</p>
+                <p>
+                  Price: {{ hotelOffer.offers[0].price.base }}
+                  {{ hotelOffer.offers[0].price.currency }}
+                </p>
+                <div class="restaurant-container">
+                  <div id="accordion">
+                    <div *ngFor="let restaurant of restaurants" class="card">
+                      <div class="card-header" [id]="'heading' + restaurant.id">
+                        <h5 class="mb-0">
+                          <button
+                            class="btn btn-link"
+                            data-toggle="collapse"
+                            [attr.data-target]="'#' + restaurant.name"
+                            aria-expanded="true"
+                            [attr.aria-controls]="restaurant.name"
+                          >
+                            {{ restaurant.name }}
+                          </button>
+                        </h5>
+                      </div>
+
+                      <div
+                        [id]="restaurant.name"
+                        class="collapse show"
+                        [attr.aria-labelledby]="'heading' + restaurant.id"
+                        data-parent="#accordion"
+                      >
+                        <div class="card-body">
+                          Anim pariatur cliche reprehenderit, enim eiusmod high
+                          life accusamus terry richardson ad squid. 3 wolf moon
+                          officia aute, non cupidatat skateboard dolor brunch.
+                          Food truck quinoa nesciunt laborum eiusmod. Brunch 3
+                          wolf moon tempor, sunt aliqua put a bird on it squid
+                          single-origin coffee nulla assumenda shoreditch et.
+                          Nihil anim keffiyeh helvetica, craft beer labore wes
+                          anderson cred nesciunt sapiente ea proident. Ad vegan
+                          excepteur butcher vice lomo. Leggings occaecat craft
+                          beer farm-to-table, raw denim aesthetic synth nesciunt
+                          you probably haven't heard of them accusamus labore
+                          sustainable VHS.
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <button class="btn btn-success">
+                  <i class="fa fa-heart mx-2"></i>Add to wishlist
+                </button>
+              </div>
+            </div>
+          </div>
+          <div *ngIf="suggestionError" class="row pt-5">
+            <div class="alert alert-danger" role="alert">
+              <h4>There is no suggestion with this budget!</h4>
+            </div>
+          </div>
         </div>
       </div>
     </div>
     <div class="col-md-8 p-0">
       <google-map
-        height="100vh"
+        height="100%"
         width="100%"
         [zoom]="zoom"
         [center]="center"
