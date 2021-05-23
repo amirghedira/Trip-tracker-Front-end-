@@ -16,7 +16,6 @@ export class UserService {
     if (lstorageService.getAccessToken())
       this.getConnectedUser(lstorageService.getAccessToken()).subscribe(
         (user) => {
-          console.log(user)
           this.currentUserSubject.next(user);
         },
         (err) => {
@@ -39,15 +38,13 @@ export class UserService {
       {
         username, password
       }).pipe(map((data: any) => {
-        console.log(data)
         this.lstorageService.setToken(data.accessToken)
         this.currentUserSubject.next(data.user)
-        console.log(data.user)
       }))
   }
   logout() {
     this.lstorageService.clearToken();
-    window.location.href = '/login'
+    window.location.href = '/'
   }
   getCurrentUser() {
     return this.currentUserSubject.asObservable();
@@ -65,5 +62,8 @@ export class UserService {
         "path": `/${path}`,
         "value": value
       }])
+  }
+  getSuggestions(budget: number, days: number, currency: string) {
+    return this.httpClient.get(`https://portail-2021.herokuapp.com/api/suggestion/getSuggestion?currency=${currency}&money=${budget}&days=${days}`)
   }
 }
