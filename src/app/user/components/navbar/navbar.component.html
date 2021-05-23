@@ -1,0 +1,25 @@
+<nav class="navbar navbar-expand-lg navbar-light bg-light py-0 px-5 custom-nav">
+  <a class="navbar-brand" routerLink="/home">
+    <img src="../../../assets/img/tript.png" style="height: 90px" />
+  </a>
+  <button class="navbar-toggler" type="button" data-target="#navbarCollapse" data-toggle="collapse">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+  <div class="collapse navbar-collapse" id="navbarCollapse">
+    <ul class="navbar-nav ml-auto mt-2 mt-lg-0" *ngIf="user">
+      <li class="nav-item">
+        <a class="nav-link" routerLink="/user/profile">
+          <i class="fa fa-user"></i> {{ user.username | titlecase }}</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" routerLink="/user/wishlist">
+          <i class="fa fa-heart"></i> Wishlist</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" (click)="logout()" style="cursor: pointer">
+          <i class="fa fa-sign-out"></i> Logout</a>
+      </li>
+    </ul>
+
+  </div>
+</nav>

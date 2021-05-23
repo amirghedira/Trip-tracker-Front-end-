@@ -1,0 +1,210 @@
+<div class="container-fluid" style="padding-top: 100px">
+  <div class="row">
+    <div class="col-md-4">
+      <div class="row">
+        <div class="col greeting-container">
+          <div class="row">
+            <h3 *ngIf="user">Hello {{ user.firstName | titlecase }}</h3>
+          </div>
+          <div class="row">
+            <hr width="200px" />
+          </div>
+          <div class="row">
+            <div class="form-group">
+              <label class="label" for="email">Enter your total budget </label>
+              <input
+                type="number"
+                [(ngModel)]="budget"
+                class="form-control"
+                id="budget"
+                min="1"
+              />
+            </div>
+          </div>
+          <div class="row">
+            <hr width="200px" />
+          </div>
+          <div class="row">
+            <div class="form-group">
+              <label class="label" for="days"
+                >Enter days you want to spend
+              </label>
+              <input
+                type="number"
+                [(ngModel)]="days"
+                class="form-control"
+                id="days"
+                min="1"
+              />
+            </div>
+          </div>
+          <!-- <div class="row">
+            <div class="col radio-container">
+              <label class="label">Choose a range</label>
+              <div class="form-check">
+                <input
+                  class="form-check-input"
+                  type="radio"
+                  name="exampleRadios"
+                  id="exampleRadios1"
+                  value="option1"
+                  checked
+                />
+                <label class="form-check-label" for="exampleRadios1">
+                  Low
+                </label>
+              </div>
+              <div class="form-check">
+                <input
+                  class="form-check-input"
+                  type="radio"
+                  name="exampleRadios"
+                  id="exampleRadios2"
+                  value="option2"
+                />
+                <label class="form-check-label" for="exampleRadios2">
+                  Medium
+                </label>
+              </div>
+              <div class="form-check">
+                <input
+                  class="form-check-input"
+                  type="radio"
+                  name="exampleRadios"
+                  id="exampleRadios3"
+                  value="option3"
+                />
+                <label class="form-check-label" for="exampleRadios3">
+                  High
+                </label>
+              </div>
+            </div>
+          </div> -->
+          <div class="row">
+            <hr width="200px" />
+          </div>
+          <div class="row">
+            <div class="form-group">
+              <label class="label" for="email">Select the currency </label>
+              <select
+                class="form-control"
+                [(ngModel)]="currency"
+                name="currency"
+                style="width: 100%"
+              >
+                <option value="TND">TND</option>
+                <option value="EUR">EUR</option>
+                <option value="GBP">GBP</option>
+                <option value="USD">USD</option>
+              </select>
+            </div>
+          </div>
+          <div class="row">
+            <hr width="200px" />
+          </div>
+          <div class="row">
+            <button
+              (click)="onGetSuggestion()"
+              class="btn btn-success btn-lg"
+              style="width: 100%"
+            >
+              <ngx-spinner
+                size="medium"
+                color="#fff"
+                type="ball-scale-multiple"
+              >
+              </ngx-spinner>
+              Search
+            </button>
+          </div>
+          <div *ngIf="!loading" class="row">
+            <div class="col-md-12">
+              <div class="row">
+                <hr width="200px" />
+              </div>
+              <div class="row suggestion-card">
+                <p>Your trip fees: {{ fees.toFixed(2) }}</p>
+                <p>You still have: {{ rest.toFixed(2) }}</p>
+                <hr width="200px" />
+                <h5>Hotel</h5>
+                <p>Name: {{ hotelOffer.hotel.name }}</p>
+                <p>Rating: {{ hotelOffer.hotel.rating }}</p>
+                <p>
+                  Price: {{ hotelOffer.offers[0].price.base }}
+                  {{ hotelOffer.offers[0].price.currency }}
+                </p>
+                <div class="restaurant-container">
+                  <div id="accordion">
+                    <div *ngFor="let restaurant of restaurants" class="card">
+                      <div class="card-header" [id]="'heading' + restaurant.id">
+                        <h5 class="mb-0">
+                          <button
+                            class="btn btn-link"
+                            data-toggle="collapse"
+                            [attr.data-target]="'#' + restaurant.name"
+                            aria-expanded="true"
+                            [attr.aria-controls]="restaurant.name"
+                          >
+                            {{ restaurant.name }}
+                          </button>
+                        </h5>
+                      </div>
+
+                      <div
+                        [id]="restaurant.name"
+                        class="collapse show"
+                        [attr.aria-labelledby]="'heading' + restaurant.id"
+                        data-parent="#accordion"
+                      >
+                        <div class="card-body">
+                          Anim pariatur cliche reprehenderit, enim eiusmod high
+                          life accusamus terry richardson ad squid. 3 wolf moon
+                          officia aute, non cupidatat skateboard dolor brunch.
+                          Food truck quinoa nesciunt laborum eiusmod. Brunch 3
+                          wolf moon tempor, sunt aliqua put a bird on it squid
+                          single-origin coffee nulla assumenda shoreditch et.
+                          Nihil anim keffiyeh helvetica, craft beer labore wes
+                          anderson cred nesciunt sapiente ea proident. Ad vegan
+                          excepteur butcher vice lomo. Leggings occaecat craft
+                          beer farm-to-table, raw denim aesthetic synth nesciunt
+                          you probably haven't heard of them accusamus labore
+                          sustainable VHS.
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <button class="btn btn-success">
+                  <i class="fa fa-heart mx-2"></i>Add to wishlist
+                </button>
+              </div>
+            </div>
+          </div>
+          <div *ngIf="suggestionError" class="row pt-5">
+            <div class="alert alert-danger" role="alert">
+              <h4>There is no suggestion with this budget!</h4>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-8 p-0">
+      <google-map
+        height="100%"
+        width="100%"
+        [zoom]="zoom"
+        [center]="center"
+        [options]="options"
+      >
+        <map-marker
+          *ngFor="let marker of markers"
+          [position]="marker.position"
+          [label]="marker.label"
+          [title]="marker.title"
+          [options]="marker.options"
+        >
+        </map-marker>
+      </google-map>
+    </div>
+  </div>
+</div>
