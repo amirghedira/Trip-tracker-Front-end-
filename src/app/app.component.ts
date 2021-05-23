@@ -1,10 +1,17 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
+import { AuthService } from './services/auth.service';
 
 @Component({
-  selector: 'app-root',
-  templateUrl: './app.component.html',
-  styleUrls: ['./app.component.css']
+    selector: 'app-root',
+    templateUrl: './app.component.html',
+    styleUrls: ['./app.component.css']
 })
-export class AppComponent {
-  title = 'trip-tracker';
+export class AppComponent implements OnInit {
+    title = 'trip-tracker';
+
+    constructor(private authService: AuthService) { }
+    ngOnInit() {
+        this.authService.checkUser()
+    }
+
 }
