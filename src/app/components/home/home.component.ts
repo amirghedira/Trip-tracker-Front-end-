@@ -3,6 +3,7 @@ import { LocalstorageService } from 'src/app/services/localstorage.service';
 import { UserService } from 'src/app/services/user.service';
 import { Router } from '@angular/router';
 import { Subscription } from 'rxjs';
+import { NgxSpinnerService } from "ngx-spinner";
 
 @Component({
   selector: 'app-home',
@@ -12,21 +13,32 @@ import { Subscription } from 'rxjs';
 export class HomeComponent implements OnInit, OnDestroy {
   user: any;
   userSubscription: Subscription
+  budget: number
+  days: number
+  currency: string = 'TND'
   zoom = 12
-  markers = []
+  markers = [{
+    position: {
+      lng: 30.0001,
+      lat: 36.025
+    },
+    options: {},
+    title: 'marker test',
+    label: { text: 'label test', color: 'red' },
+  }]
   center: google.maps.LatLngLiteral
   options: google.maps.MapOptions = {
     scrollwheel: false,
     maxZoom: 15,
-    minZoom: 8,
+    // minZoom: 8,
     mapTypeControl: false,
     scaleControl: false,
     zoomControl: true,
     mapTypeId: google.maps.MapTypeId.ROADMAP
   }
-  constructor(private userService: UserService, private lStorageService: LocalstorageService, private router: Router) {
+  constructor(private userService: UserService, private lStorageService: LocalstorageService, private router: Router,
+    private spinner: NgxSpinnerService) {
 
-    // this.router.navigate(['login']);
   }
 
   ngOnInit() {
@@ -70,6 +82,30 @@ export class HomeComponent implements OnInit, OnDestroy {
       options: { animation: google.maps.Animation.BOUNCE },
     })
   }
+
+  onGetSuggestion() {
+    this.spinner.show();
+    this.userService.getSuggestions(this.budget, this.days, this.currency)
+      .subscribe((suggestion: any) => {
+        console.log(suggestion)
+        this.markers = [{
+          position: {
+            lng: suggestion.hotelOffer.hotel.longitude,
+            lat: suggestion.hotelOffer.hotel.latitude
+          },
+          options: {},
+          title: suggestion.hotelOffer.hotel.name,
+          label: { text: 'hotel', color: 'red' },
+        }]
+      }, (err) => {
+        console.log(err)
+        this.spinner.hide();
+      }, () => {
+        this.spinner.hide();
+
+      })
+  }
+
   ngOnDestroy() {
     if (this.lStorageService.getAccessToken())
       this.userSubscription.unsubscribe();

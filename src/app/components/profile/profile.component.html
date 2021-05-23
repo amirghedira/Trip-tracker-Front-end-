@@ -191,7 +191,7 @@
                         <hr />
                         <div class="row" style="margin-bottom: -1rem">
                           <div class="col-md-4 text-center">
-                            <p>Adresse</p>
+                            <p>Address</p>
                           </div>
                           <div class="col-md-4 text-center">
                             <input
@@ -344,7 +344,7 @@
       <div class="modal-body">
         <form id="register-form" role="form" class="form">
           <div class="form-group">
-            <div class="input-group">
+            <div class="input-group mb-3">
               <input
                 id="password"
                 name="password"
@@ -359,7 +359,7 @@
                 [(ngModel)]="oldPassword"
               />
             </div>
-            <div class="input-group">
+            <div class="input-group mb-3">
               <input
                 id="newpassword"
                 name="newpassword"
@@ -401,14 +401,14 @@
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-dismiss="modal">
-          Fermer
+          Close
         </button>
         <button
           type="button"
           class="btn btn-primary"
           [disabled]="invalidPasswordMatch"
         >
-          Confirmer
+          Save
         </button>
       </div>
     </div>

@@ -49,7 +49,6 @@ export class ProfileComponent implements OnInit, OnDestroy {
     if (this.lStorageService.getAccessToken())
       this.userSubscription = this.userService.getCurrentUser().subscribe(
         (data: any) => {
-          console.log(data)
           this.user = data;
           this.firstName = data.firstName
         }

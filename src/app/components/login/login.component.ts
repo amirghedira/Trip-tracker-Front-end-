@@ -20,7 +20,7 @@ export class LoginComponent implements OnInit {
     this.userService.login(this.username, this.password).subscribe(
       (data: any) => {
         // this.router.navigate(['/home']);
-        window.location.href = '/'
+        window.location.href = '/home'
       },
       (err) => {
         console.log(err)
