@@ -22,3 +22,7 @@
 .signupBtn {
   width: 100%;
 }
+.logo-container {
+  display: flex;
+  justify-content: center;
+}

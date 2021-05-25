@@ -25,3 +25,8 @@
 .btn:focus {
   outline: none;
 }
+.active-link {
+  border-bottom: 3px solid rgb(182, 232, 115);
+  font-weight: 600;
+  color: black !important;
+}

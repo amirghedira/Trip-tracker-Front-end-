@@ -1,1 +1,40 @@
-<div class="container container-fluid" style="min-height: 100vh"></div>
+<div
+  class="container container-fluid"
+  style="min-height: 100vh; padding-top: 120px"
+>
+  <div class="row" *ngIf="suggestions.length > 0; else empty">
+    <div *ngFor="let suggestion of suggestions" class="col-md-4">
+      <div class="card" style="width: 18rem">
+        <div class="card-body">
+          <h6 class="card-title">{{ suggestion.id }}</h6>
+          <h5 class="card-subtitle mb-2 text-muted">
+            Arrival: {{ suggestion.flightOffer.arrivalCountry }}
+          </h5>
+          <p class="card-text">Hotel {{ suggestion.hotelOffer.hotel.name }}</p>
+          <p class="card-text">
+            Trip Fees:
+            {{ (suggestion.startingBudget - suggestion.rest).toFixed(2) }}
+          </p>
+          <a
+            class="card-link"
+            (click)="bookSuggestion(suggestion.id)"
+            style="cursor: pointer"
+            *ngIf="!suggestion.booked"
+            >Book now</a
+          >
+          <a
+            class="card-link"
+            (click)="removeSuggestion(suggestion.id)"
+            style="cursor: pointer"
+            >Remove</a
+          >
+        </div>
+      </div>
+    </div>
+  </div>
+  <ng-template #empty>
+    <div class="row justify-content-center">
+      <h3>Your wishlist is empty...</h3>
+    </div>
+  </ng-template>
+</div>

@@ -13,31 +13,36 @@ import { GoogleMapsModule } from '@angular/google-maps';
 import { NgxSpinnerModule } from 'ngx-spinner';
 import { RouterModule } from '@angular/router';
 import { TokenInterceptorService } from '../services/token-interceptor.service';
+import { BookingComponent } from './pages/booking/booking.component';
+import { UserService } from './user.service';
 
 
 
 @NgModule({
-    declarations: [
-        WishlistComponent,
-        HomeComponent,
-        ProfileComponent,
-        UserComponent,
-        NavbarComponent,
-        FooterComponent
-    ],
-    imports: [
-        CommonModule,
-        FormsModule,
-        GoogleMapsModule,
-        HttpClientModule,
-        RouterModule,
-        NgxSpinnerModule,
-        UserRoutingModule,
-    ],
-    providers: [{
-        provide: HTTP_INTERCEPTORS,
-        useClass: TokenInterceptorService,
-        multi: true
-    }]
+  declarations: [
+    WishlistComponent,
+    HomeComponent,
+    ProfileComponent,
+    UserComponent,
+    NavbarComponent,
+    FooterComponent,
+    BookingComponent
+  ],
+  imports: [
+    CommonModule,
+    FormsModule,
+    GoogleMapsModule,
+    HttpClientModule,
+    RouterModule,
+    NgxSpinnerModule,
+    UserRoutingModule,
+  ],
+  providers: [{
+    provide: HTTP_INTERCEPTORS,
+    useClass: TokenInterceptorService,
+    multi: true,
+
+
+  }, UserService]
 })
 export class UserModule { }

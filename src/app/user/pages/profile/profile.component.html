@@ -11,7 +11,12 @@
                     <div class="col-12 col-sm-auto mb-1">
                       <div class="mx-auto" style="width: 140px">
                         <div
-                          class="d-flex justify-content-center align-items-center rounded"
+                          class="
+                            d-flex
+                            justify-content-center
+                            align-items-center
+                            rounded
+                          "
                           style="height: 140px"
                         >
                           <img
@@ -37,7 +42,12 @@
                       </div>
                     </div>
                     <div
-                      class="col d-flex flex-column flex-sm-row justify-content-between"
+                      class="
+                        col
+                        d-flex
+                        flex-column flex-sm-row
+                        justify-content-between
+                      "
                       style="margin: 0"
                     >
                       <div class="text-center text-sm-left mb-2 mb-sm-0"></div>
@@ -351,6 +361,7 @@
                 placeholder="Current Password"
                 class="form-control"
                 required
+                (focus)="incorrectPassword = false"
                 type="password"
                 style="
                   border: 1px solid rgba(167, 167, 167, 0.527);
@@ -366,6 +377,7 @@
                 placeholder="New Password"
                 class="form-control"
                 type="password"
+                (focus)="invalidPasswordMatch = false"
                 required
                 style="
                   border: 1px solid rgba(167, 167, 167, 0.527);
@@ -381,6 +393,7 @@
                 placeholder="Retype Password"
                 class="form-control"
                 required
+                (focus)="invalidPasswordMatch = false"
                 type="password"
                 style="
                   border: 1px solid rgba(167, 167, 167, 0.527);
@@ -392,9 +405,16 @@
             <div
               class="alert alert-danger"
               role="alert"
+              *ngIf="incorrectPassword"
+            >
+              Your current password is incorrect
+            </div>
+            <div
+              class="alert alert-danger"
+              role="alert"
               *ngIf="invalidPasswordMatch"
             >
-              Voulez vous retaper le meme mot de passe
+              Passwords don't match
             </div>
           </div>
         </form>
@@ -406,7 +426,7 @@
         <button
           type="button"
           class="btn btn-primary"
-          [disabled]="invalidPasswordMatch"
+          (click)="updatePassword()"
         >
           Save
         </button>

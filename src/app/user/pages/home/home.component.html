@@ -133,17 +133,21 @@
                   Price: {{ hotelOffer.offers[0].price.base }}
                   {{ hotelOffer.offers[0].price.currency }}
                 </p>
+                <h5>Restaurants</h5>
                 <div class="restaurant-container">
                   <div id="accordion">
-                    <div *ngFor="let restaurant of restaurants" class="card">
+                    <div
+                      *ngFor="let restaurant of restaurants; let i = index"
+                      class="card"
+                    >
                       <div class="card-header" [id]="'heading' + restaurant.id">
                         <h5 class="mb-0">
                           <button
                             class="btn btn-link"
                             data-toggle="collapse"
-                            [attr.data-target]="'#' + restaurant.name"
+                            [attr.data-target]="'#collapse' + i"
                             aria-expanded="true"
-                            [attr.aria-controls]="restaurant.name"
+                            [attr.aria-controls]="'collapse' + i"
                           >
                             {{ restaurant.name }}
                           </button>
@@ -151,32 +155,45 @@
                       </div>
 
                       <div
-                        [id]="restaurant.name"
+                        [id]="'collapse' + i"
                         class="collapse show"
                         [attr.aria-labelledby]="'heading' + restaurant.id"
                         data-parent="#accordion"
                       >
                         <div class="card-body">
-                          Anim pariatur cliche reprehenderit, enim eiusmod high
-                          life accusamus terry richardson ad squid. 3 wolf moon
-                          officia aute, non cupidatat skateboard dolor brunch.
-                          Food truck quinoa nesciunt laborum eiusmod. Brunch 3
-                          wolf moon tempor, sunt aliqua put a bird on it squid
-                          single-origin coffee nulla assumenda shoreditch et.
-                          Nihil anim keffiyeh helvetica, craft beer labore wes
-                          anderson cred nesciunt sapiente ea proident. Ad vegan
-                          excepteur butcher vice lomo. Leggings occaecat craft
-                          beer farm-to-table, raw denim aesthetic synth nesciunt
-                          you probably haven't heard of them accusamus labore
-                          sustainable VHS.
+                          <h4>Location</h4>
+                          <p>
+                            {{ restaurant.location.city }} |
+                            {{ restaurant.location.address }}
+                          </p>
+                          <h4>Rating</h4>
+                          <p>
+                            {{ restaurant.user_rating.aggregate_rating }}/5 |
+                            {{ restaurant.user_rating.rating_text }}
+                          </p>
+                          <h4>Website</h4>
+                          <a [href]="restaurant.url" target="_blank"
+                            >Click here to visit
+                          </a>
                         </div>
                       </div>
                     </div>
                   </div>
                 </div>
-                <button class="btn btn-success">
-                  <i class="fa fa-heart mx-2"></i>Add to wishlist
-                </button>
+                <div class="row buttons-container">
+                  <button
+                    class="btn btn-outline-success btns"
+                    (click)="addSuggestionTowish()"
+                  >
+                    <i class="fa fa-heart mx-2"></i>Add to wishlist
+                  </button>
+                  <button
+                    class="btn btn-outline-primary btns"
+                    (click)="bookSuggestion()"
+                  >
+                    <i class="fa fa-bookmark mx-2"></i>Book now
+                  </button>
+                </div>
               </div>
             </div>
           </div>

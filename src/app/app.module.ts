@@ -13,20 +13,20 @@ import { RouterModule } from '@angular/router';
 
 
 @NgModule({
-    declarations: [
-        AppComponent,
-    ],
-    imports: [
-        FormsModule,
-        BrowserModule,
-        // UserModule,
-        AppRoutingModule,
-        AuthModule,
+  declarations: [
+    AppComponent,
+  ],
+  imports: [
+    FormsModule,
+    BrowserModule,
+    // UserModule,
+    AppRoutingModule,
+    AuthModule,
+    BrowserAnimationsModule
+  ],
+  schemas: [CUSTOM_ELEMENTS_SCHEMA],
 
-    ],
-    schemas: [CUSTOM_ELEMENTS_SCHEMA],
-
-    providers: [],
-    bootstrap: [AppComponent]
+  providers: [],
+  bootstrap: [AppComponent]
 })
 export class AppModule { }
