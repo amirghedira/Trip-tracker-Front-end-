@@ -18,6 +18,7 @@ export class HomeComponent implements OnInit {
   days: number
   fees: number
   loading: boolean = true
+  loadingSpinner: boolean = false
   rest: number
   hotelOffer: any
   suggestionID: string
@@ -56,7 +57,6 @@ export class HomeComponent implements OnInit {
   }
 
   ngOnInit() {
-
     this.userSubscription = this.authService.getCurrentUser().subscribe(
       (data) => {
         this.user = data;
@@ -97,10 +97,12 @@ export class HomeComponent implements OnInit {
     this.spinner.show()
     this.loading = true
     this.suggestionError = false
+    this.loadingSpinner = true
     this.userService.getSuggestions(this.budget, this.days, this.currency)
       .subscribe((suggestion: any) => {
         console.log(suggestion)
         this.loading = false
+        this.loadingSpinner = false
         this.suggestionID = suggestion.id
         this.rest = suggestion.rest
         this.fees = suggestion.startingBudget - suggestion.rest
@@ -115,8 +117,8 @@ export class HomeComponent implements OnInit {
             animation: google.maps.Animation.DROP,
             draggable: false,
             icon: {
-              url: '../../../assets/img/PngItem_1760457.png',
-              scaledSize: { height: 90, width: 71 }
+              url: '../../../assets/img/picker1.png',
+              scaledSize: { height: 47, width: 31 }
             }
           },
 
@@ -131,8 +133,8 @@ export class HomeComponent implements OnInit {
               animation: google.maps.Animation.DROP,
               draggable: false,
               icon: {
-                url: '../../../assets/img/tript.png',
-                scaledSize: { height: 90, width: 40 }
+                url: '../../../assets/img/picker2.png',
+                scaledSize: { height: 47, width: 31 }
               }
             }
           })
@@ -143,6 +145,7 @@ export class HomeComponent implements OnInit {
       }, (err) => {
         console.log(err)
         this.spinner.hide()
+        this.loadingSpinner = false
         this.suggestionError = true
       }, () => {
         this.spinner.hide()
