@@ -1,4 +1,4 @@
-import { NgModule } from '@angular/core';
+import { NgModule, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { UserRoutingModule } from './user-routing.module';
@@ -15,6 +15,7 @@ import { RouterModule } from '@angular/router';
 import { TokenInterceptorService } from '../services/token-interceptor.service';
 import { BookingComponent } from './pages/booking/booking.component';
 import { UserService } from './user.service';
+import { NgxSkeletonLoaderModule } from 'ngx-skeleton-loader';
 
 
 
@@ -36,7 +37,10 @@ import { UserService } from './user.service';
     RouterModule,
     NgxSpinnerModule,
     UserRoutingModule,
+    NgxSkeletonLoaderModule
   ],
+  schemas: [CUSTOM_ELEMENTS_SCHEMA],
+
   providers: [{
     provide: HTTP_INTERCEPTORS,
     useClass: TokenInterceptorService,

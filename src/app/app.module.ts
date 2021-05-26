@@ -22,7 +22,8 @@ import { RouterModule } from '@angular/router';
     // UserModule,
     AppRoutingModule,
     AuthModule,
-    BrowserAnimationsModule
+    BrowserAnimationsModule,
+
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
 

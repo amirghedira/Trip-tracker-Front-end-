@@ -8,11 +8,17 @@ import { UserService } from '../../user.service';
 })
 export class WishlistComponent implements OnInit {
   suggestions: any = []
+  loading: boolean = false
+
   constructor(private userService: UserService) { }
 
   ngOnInit(): void {
+    this.loading = true
+
     this.userService.getWishlist().subscribe((res) => {
       console.log(res)
+      this.loading = false
+
       this.suggestions = res
     },
       (err) => {

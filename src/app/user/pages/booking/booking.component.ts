@@ -12,19 +12,23 @@ import { UserService } from '../../user.service'
 export class BookingComponent implements OnInit {
   user: any;
   userSubscription: Subscription
-
+  loading: boolean = false
+  suggestions: any = []
   constructor(private authService: AuthService, private userService: UserService,
     private spinner: NgxSpinnerService) {
 
   }
 
   ngOnInit() {
-
-    this.userSubscription = this.authService.getCurrentUser().subscribe(
-      (data) => {
-        this.user = data;
-      }
-    )
+    this.loading = true
+    this.userService.getBookings().subscribe((res) => {
+      console.log(res)
+      this.loading = false
+      this.suggestions = res
+    },
+      (err) => {
+        console.log(err)
+      })
 
   }
 

@@ -37,13 +37,16 @@
           </div>
           <div class="row">
             <div class="col-md-12">
-              <button
+              <div
                 (click)="login()"
                 type="submit"
                 class="btn btn-success signupBtn"
               >
-                Log In
-              </button>
+                <div *ngIf="loading" class="spinner-border" role="status">
+                  <span class="sr-only">Loading...</span>
+                </div>
+                <p class="p-0 m-2 mx-3">Log In</p>
+              </div>
             </div>
           </div>
         </div>

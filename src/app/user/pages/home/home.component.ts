@@ -3,6 +3,7 @@ import { AuthService } from 'src/app/services/auth.service';
 import { Subscription } from 'rxjs';
 import { NgxSpinnerService } from "ngx-spinner";
 import { UserService } from '../../user.service'
+import Swal from 'sweetalert2'
 
 @Component({
   selector: 'app-home',
@@ -117,20 +118,49 @@ export class HomeComponent implements OnInit {
   }
 
   bookSuggestion() {
+
     this.userService.bookSuggestion(this.suggestionID).subscribe(res => {
       console.log(res)
+      Swal.fire({
+        position: 'center',
+        icon: 'success',
+        title: 'You have booked successfully!',
+        showConfirmButton: false,
+        timer: 1500
+      })
     },
       (err) => {
         console.log(err)
+        Swal.fire({
+          position: 'center',
+          icon: 'error',
+          title: 'An error occurred, please try again!',
+          showConfirmButton: false,
+          timer: 1500
+        })
       })
   }
 
   addSuggestionTowish() {
     this.userService.addSuggestionToWishlist(this.suggestionID).subscribe(res => {
       console.log(res)
+      Swal.fire({
+        position: 'center',
+        icon: 'success',
+        title: 'Added to your wishlist!',
+        showConfirmButton: false,
+        timer: 1500
+      })
     },
       (err) => {
         console.log(err)
+        Swal.fire({
+          position: 'center',
+          icon: 'error',
+          title: 'An error occurred, please try again!',
+          showConfirmButton: false,
+          timer: 1500
+        })
       })
   }
 }
