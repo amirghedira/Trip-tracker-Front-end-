@@ -16,43 +16,37 @@ import { TokenInterceptorService } from '../services/token-interceptor.service';
 import { BookingComponent } from './pages/booking/booking.component';
 import { UserService } from './user.service';
 import { NgxSkeletonLoaderModule } from 'ngx-skeleton-loader';
-import { AgmCoreModule } from '@agm/core';
-import { AgmDirectionModule } from 'agm-direction';
 
 
 
 @NgModule({
-    declarations: [
-        WishlistComponent,
-        HomeComponent,
-        ProfileComponent,
-        UserComponent,
-        NavbarComponent,
-        FooterComponent,
-        BookingComponent
-    ],
-    imports: [
-        CommonModule,
-        FormsModule,
-        GoogleMapsModule,
-        HttpClientModule,
-        RouterModule,
-        NgxSpinnerModule,
-        UserRoutingModule,
-        NgxSkeletonLoaderModule,
-        AgmCoreModule.forRoot({ //@agm/core
-            apiKey: 'AIzaSyDcbXzRxlL0q_tM54tnAWHMlGdmPByFAfE'
-        }),
-        AgmDirectionModule
-    ],
-    schemas: [CUSTOM_ELEMENTS_SCHEMA],
+  declarations: [
+    WishlistComponent,
+    HomeComponent,
+    ProfileComponent,
+    UserComponent,
+    NavbarComponent,
+    FooterComponent,
+    BookingComponent
+  ],
+  imports: [
+    CommonModule,
+    FormsModule,
+    GoogleMapsModule,
+    HttpClientModule,
+    RouterModule,
+    NgxSpinnerModule,
+    UserRoutingModule,
+    NgxSkeletonLoaderModule
+  ],
+  schemas: [CUSTOM_ELEMENTS_SCHEMA],
 
-    providers: [{
-        provide: HTTP_INTERCEPTORS,
-        useClass: TokenInterceptorService,
-        multi: true,
+  providers: [{
+    provide: HTTP_INTERCEPTORS,
+    useClass: TokenInterceptorService,
+    multi: true,
 
 
-    }, UserService]
+  }, UserService]
 })
 export class UserModule { }
