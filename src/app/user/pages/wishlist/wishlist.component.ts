@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { UserService } from '../../user.service';
+import Swal from 'sweetalert2'
 
 @Component({
   selector: 'app-wishlist',
@@ -9,17 +10,23 @@ import { UserService } from '../../user.service';
 export class WishlistComponent implements OnInit {
   suggestions: any = []
   loading: boolean = false
-
+  recommendations: any = []
   constructor(private userService: UserService) { }
 
   ngOnInit(): void {
     this.loading = true
 
-    this.userService.getWishlist().subscribe((res) => {
-      console.log(res)
-      this.loading = false
-
-      this.suggestions = res
+    this.userService.getWishlist().subscribe((wishlist) => {
+      console.log(wishlist)
+      this.suggestions = wishlist
+      this.userService.getRecommendations().subscribe((res) => {
+        console.log(res)
+        this.loading = false
+        this.recommendations = res
+      },
+        (err) => {
+          console.log(err)
+        })
     },
       (err) => {
         console.log(err)
@@ -29,8 +36,22 @@ export class WishlistComponent implements OnInit {
   bookSuggestion(id: string) {
     this.userService.bookSuggestion(id).subscribe((res) => {
       console.log(res)
+      Swal.fire({
+        position: 'center',
+        icon: 'success',
+        title: 'You have successfully booked!',
+        showConfirmButton: false,
+        timer: 1500
+      })
     },
       (err) => {
+        Swal.fire({
+          position: 'center',
+          icon: 'error',
+          title: 'An error occurred, please try again',
+          showConfirmButton: false,
+          timer: 1500
+        })
         console.log(err)
       })
   }

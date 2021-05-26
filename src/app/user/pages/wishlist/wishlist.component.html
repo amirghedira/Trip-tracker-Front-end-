@@ -35,6 +35,37 @@
         </div>
       </div>
     </div>
+    <hr width="100%" />
+    <div class="row justify-content-center mb-4">
+      <h4>See also</h4>
+    </div>
+    <div class="row">
+      <div *ngFor="let recommendation of recommendations" class="col-md-4 mb-4">
+        <div class="card custom-card" style="width: 18rem">
+          <div class="card-body">
+            <h6 class="card-title">{{ recommendation.id }}</h6>
+            <h5 class="card-subtitle mb-2 text-muted">
+              Arrival: {{ recommendation.flightOffer.arrivalCountry }}
+            </h5>
+            <p class="card-text">
+              Hotel {{ recommendation.hotelOffer.hotel.name }}
+            </p>
+            <p class="card-text">
+              Trip Fees:
+              {{
+                (recommendation.startingBudget - recommendation.rest).toFixed(2)
+              }}
+            </p>
+            <a
+              class="card-link"
+              (click)="bookSuggestion(recommendation.id)"
+              style="cursor: pointer"
+              >Book now</a
+            >
+          </div>
+        </div>
+      </div>
+    </div>
     <ng-template #empty>
       <div class="row justify-content-center">
         <h3>Your wishlist is empty...</h3>
@@ -43,7 +74,7 @@
   </div>
   <div class="" *ngIf="loading">
     <div class="row">
-      <div class="col-md-4 mb-4" *ngFor="let i of [1, 2, 3, 4, 5, 6]">
+      <div class="col-md-4 mb-4" *ngFor="let i of [1, 2, 3, 4, 5, 6, 7, 8, 9]">
         <div class="card" style="width: 18rem">
           <div class="card-body">
             <h6 class="card-title">

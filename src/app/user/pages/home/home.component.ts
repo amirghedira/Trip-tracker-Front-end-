@@ -4,7 +4,6 @@ import { Subscription } from 'rxjs';
 import { NgxSpinnerService } from "ngx-spinner";
 import { UserService } from '../../user.service'
 import { MapInfoWindow, MapMarker } from '@angular/google-maps';
-import { AfterViewInit } from '@angular/core';
 import Swal from 'sweetalert2'
 
 @Component({
@@ -26,15 +25,7 @@ export class HomeComponent implements OnInit {
   suggestionError: boolean
   currency: string = 'TND'
   zoom = 12
-  markers = [{
-    position: {
-      lng: 30.0001,
-      lat: 36.025
-    },
-    options: {},
-    title: 'marker test',
-    label: { text: 'label test', color: 'red' },
-  }]
+  markers = []
   infoContent;
   @ViewChild(MapInfoWindow, { static: false }) infoWindow: MapInfoWindow;
   @ViewChild('map') googleMap;
@@ -108,21 +99,45 @@ export class HomeComponent implements OnInit {
     this.suggestionError = false
     this.userService.getSuggestions(this.budget, this.days, this.currency)
       .subscribe((suggestion: any) => {
+        console.log(suggestion)
         this.loading = false
         this.suggestionID = suggestion.id
         this.rest = suggestion.rest
         this.fees = suggestion.startingBudget - suggestion.rest
         this.restaurants = suggestion.restaurants
         this.hotelOffer = suggestion.hotelOffer
-        this.markers = [{
+        let markers = [{
           position: {
             lng: suggestion.hotelOffer.hotel.longitude,
             lat: suggestion.hotelOffer.hotel.latitude
           },
-          options: {},
-          title: suggestion.hotelOffer.hotel.name,
-          label: { text: 'hotel', color: 'red' },
+          options: {
+            animation: google.maps.Animation.DROP,
+            draggable: false,
+            icon: {
+              url: '../../../assets/img/PngItem_1760457.png',
+              scaledSize: { height: 90, width: 71 }
+            }
+          },
+
         }]
+        suggestion.restaurants.forEach(restaurant => {
+          markers.push({
+            position: {
+              lng: +restaurant.location.longitude,
+              lat: +restaurant.location.latitude
+            },
+            options: {
+              animation: google.maps.Animation.DROP,
+              draggable: false,
+              icon: {
+                url: '../../../assets/img/tript.png',
+                scaledSize: { height: 90, width: 40 }
+              }
+            }
+          })
+        });
+        this.markers = markers
         this.refreshMap(this.markers)
 
       }, (err) => {
@@ -138,8 +153,22 @@ export class HomeComponent implements OnInit {
   bookSuggestion() {
     this.userService.bookSuggestion(this.suggestionID).subscribe(res => {
       console.log(res)
+      Swal.fire({
+        position: 'center',
+        icon: 'success',
+        title: 'You have successfully booked!',
+        showConfirmButton: false,
+        timer: 1500
+      })
     },
       (err) => {
+        Swal.fire({
+          position: 'center',
+          icon: 'error',
+          title: 'An error occurred, please try again',
+          showConfirmButton: false,
+          timer: 1500
+        })
         console.log(err)
       })
   }
@@ -152,9 +181,23 @@ export class HomeComponent implements OnInit {
   addSuggestionTowish() {
     this.userService.addSuggestionToWishlist(this.suggestionID).subscribe(res => {
       console.log(res)
+      Swal.fire({
+        position: 'center',
+        icon: 'success',
+        title: 'Added succesfully to your wishlist!',
+        showConfirmButton: false,
+        timer: 1500
+      })
     },
       (err) => {
         console.log(err)
+        Swal.fire({
+          position: 'center',
+          icon: 'error',
+          title: 'An error occured, please try again!',
+          showConfirmButton: false,
+          timer: 1500
+        })
       })
   }
 }

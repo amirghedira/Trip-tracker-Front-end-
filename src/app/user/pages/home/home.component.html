@@ -12,7 +12,13 @@
           <div class="row">
             <div class="form-group">
               <label class="label" for="email">Enter your total budget </label>
-              <input type="number" [(ngModel)]="budget" class="form-control" id="budget" min="1" />
+              <input
+                type="number"
+                [(ngModel)]="budget"
+                class="form-control"
+                id="budget"
+                min="1"
+              />
             </div>
           </div>
           <div class="row">
@@ -20,9 +26,16 @@
           </div>
           <div class="row">
             <div class="form-group">
-              <label class="label" for="days">Enter days you want to spend
+              <label class="label" for="days"
+                >Enter days you want to spend
               </label>
-              <input type="number" [(ngModel)]="days" class="form-control" id="days" min="1" />
+              <input
+                type="number"
+                [(ngModel)]="days"
+                class="form-control"
+                id="days"
+                min="1"
+              />
             </div>
           </div>
           <!-- <div class="row">
@@ -73,7 +86,12 @@
           <div class="row">
             <div class="form-group">
               <label class="label" for="email">Select the currency </label>
-              <select class="form-control" [(ngModel)]="currency" name="currency" style="width: 100%">
+              <select
+                class="form-control"
+                [(ngModel)]="currency"
+                name="currency"
+                style="width: 100%"
+              >
                 <option value="TND">TND</option>
                 <option value="EUR">EUR</option>
                 <option value="GBP">GBP</option>
@@ -85,8 +103,16 @@
             <hr width="200px" />
           </div>
           <div class="row">
-            <button (click)="onGetSuggestion()" class="btn btn-success btn-lg" style="width: 100%">
-              <ngx-spinner size="medium" color="#fff" type="ball-scale-multiple">
+            <button
+              (click)="onGetSuggestion()"
+              class="btn btn-success btn-lg"
+              style="width: 100%"
+            >
+              <ngx-spinner
+                size="medium"
+                color="#fff"
+                type="ball-scale-multiple"
+              >
               </ngx-spinner>
               Search
             </button>
@@ -110,18 +136,30 @@
                 <h5>Restaurants</h5>
                 <div class="restaurant-container">
                   <div id="accordion">
-                    <div *ngFor="let restaurant of restaurants; let i = index" class="card">
+                    <div
+                      *ngFor="let restaurant of restaurants; let i = index"
+                      class="card"
+                    >
                       <div class="card-header" [id]="'heading' + restaurant.id">
                         <h5 class="mb-0">
-                          <button class="btn btn-link" data-toggle="collapse" [attr.data-target]="'#collapse' + i"
-                            aria-expanded="true" [attr.aria-controls]="'collapse' + i">
+                          <button
+                            class="btn btn-link"
+                            data-toggle="collapse"
+                            [attr.data-target]="'#collapse' + i"
+                            aria-expanded="true"
+                            [attr.aria-controls]="'collapse' + i"
+                          >
                             {{ restaurant.name }}
                           </button>
                         </h5>
                       </div>
 
-                      <div [id]="'collapse' + i" class="collapse show"
-                        [attr.aria-labelledby]="'heading' + restaurant.id" data-parent="#accordion">
+                      <div
+                        [id]="'collapse' + i"
+                        class="collapse show"
+                        [attr.aria-labelledby]="'heading' + restaurant.id"
+                        data-parent="#accordion"
+                      >
                         <div class="card-body">
                           <h4>Location</h4>
                           <p>
@@ -134,7 +172,8 @@
                             {{ restaurant.user_rating.rating_text }}
                           </p>
                           <h4>Website</h4>
-                          <a [href]="restaurant.url" target="_blank">Click here to visit
+                          <a [href]="restaurant.url" target="_blank"
+                            >Click here to visit
                           </a>
                         </div>
                       </div>
@@ -142,10 +181,16 @@
                   </div>
                 </div>
                 <div class="row buttons-container">
-                  <button class="btn btn-outline-success btns" (click)="addSuggestionTowish()">
+                  <button
+                    class="btn btn-outline-success btns"
+                    (click)="addSuggestionTowish()"
+                  >
                     <i class="fa fa-heart mx-2"></i>Add to wishlist
                   </button>
-                  <button class="btn btn-outline-primary btns" (click)="bookSuggestion()">
+                  <button
+                    class="btn btn-outline-primary btns"
+                    (click)="bookSuggestion()"
+                  >
                     <i class="fa fa-bookmark mx-2"></i>Book now
                   </button>
                 </div>
@@ -161,12 +206,25 @@
       </div>
     </div>
     <div class="col-md-8 p-0">
-      <google-map #map height="100%" width="100%" [zoom]="zoom" [center]="center" [options]="options">
-        <map-marker *ngFor="let marker of markers;let i = index" [position]="marker.position" #markerElem="mapMarker"
-          [label]="marker.label" [title]="marker.title" [options]="marker.options"
-          (mapClick)="openInfoWindow(markerElem,i)">
+      <google-map
+        #map
+        height="100%"
+        width="100%"
+        [zoom]="zoom"
+        [center]="center"
+        [options]="options"
+      >
+        <map-marker
+          *ngFor="let marker of markers; let i = index"
+          [position]="marker.position"
+          #markerElem="mapMarker"
+          [label]="marker.label"
+          [title]="marker.title"
+          [options]="marker.options"
+          (mapClick)="openInfoWindow(markerElem, i)"
+        >
           <map-info-window>
-            {{infoContent}}
+            {{ infoContent }}
           </map-info-window>
         </map-marker>
       </google-map>
