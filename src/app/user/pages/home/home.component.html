@@ -169,6 +169,9 @@
             {{ infoContent }}
           </map-info-window>
         </map-marker>
+        <map-directions-renderer [options]="renderOptions" *ngFor="let directionsResult of directionsResults"
+          [directions]="directionsResult">
+        </map-directions-renderer>
       </google-map>
     </div>
   </div>

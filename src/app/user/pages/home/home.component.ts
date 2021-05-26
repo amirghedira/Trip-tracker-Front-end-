@@ -1,10 +1,16 @@
 import { Component, OnInit, OnDestroy, ViewChild } from '@angular/core';
 import { AuthService } from 'src/app/services/auth.service';
-import { Subscription } from 'rxjs';
+import { Observable, Subscription } from 'rxjs';
 import { NgxSpinnerService } from "ngx-spinner";
 import { UserService } from '../../user.service'
 import { MapInfoWindow, MapMarker } from '@angular/google-maps';
+import { MapDirectionsService } from '@angular/google-maps';
+
+
+
 import Swal from 'sweetalert2'
+import { map } from 'rxjs/operators';
+
 
 @Component({
     selector: 'app-home',
@@ -26,6 +32,9 @@ export class HomeComponent implements OnInit {
     currency: string = 'TND'
     zoom = 12
     markers = []
+    renderOptions = {
+        suppressMarkers: true,
+    }
     infoContent;
     @ViewChild(MapInfoWindow, { static: false }) infoWindow: MapInfoWindow;
     @ViewChild('map') googleMap;
@@ -40,8 +49,10 @@ export class HomeComponent implements OnInit {
         zoomControl: true,
         mapTypeId: google.maps.MapTypeId.ROADMAP
     }
+    directionsResults = [];
+
     constructor(private authService: AuthService, private userService: UserService,
-        private spinner: NgxSpinnerService) {
+        private spinner: NgxSpinnerService, private mapDirectionsService: MapDirectionsService) {
 
     }
 
@@ -119,6 +130,7 @@ export class HomeComponent implements OnInit {
                             scaledSize: { height: 90, width: 71 }
                         }
                     },
+                    duration: ''
 
                 }]
                 suggestion.restaurants.forEach(restaurant => {
@@ -134,9 +146,24 @@ export class HomeComponent implements OnInit {
                                 url: '../../../assets/img/tript.png',
                                 scaledSize: { height: 90, width: 40 }
                             }
-                        }
+                        },
+                        duration: ''
                     })
                 });
+                markers.forEach((marker, index) => {
+                    if (index > 0) {
+                        const request: google.maps.DirectionsRequest = {
+                            destination: marker.position,
+                            origin: markers[0].position,
+                            travelMode: google.maps.TravelMode.DRIVING
+                        };
+                        this.mapDirectionsService.route(request)
+                            .subscribe(response => {
+                                marker.duration = response.result.routes[0].legs[0].duration.text
+                                this.directionsResults.push(response.result)
+                            })
+                    }
+                })
                 this.markers = markers
                 this.refreshMap(this.markers)
 
@@ -174,7 +201,7 @@ export class HomeComponent implements OnInit {
     }
     openInfoWindow(marker: MapMarker, index) {
         /// stores the current index in forEach
-        this.infoContent = this.markers[index].title;
+        this.infoContent = this.markers[index].duration;
         this.infoWindow.open(marker);
 
     }
