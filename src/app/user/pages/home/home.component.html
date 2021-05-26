@@ -38,7 +38,48 @@
               />
             </div>
           </div>
-
+          <!-- <div class="row">
+              <div class="col radio-container">
+                <label class="label">Choose a range</label>
+                <div class="form-check">
+                  <input
+                    class="form-check-input"
+                    type="radio"
+                    name="exampleRadios"
+                    id="exampleRadios1"
+                    value="option1"
+                    checked
+                  />
+                  <label class="form-check-label" for="exampleRadios1">
+                    Low
+                  </label>
+                </div>
+                <div class="form-check">
+                  <input
+                    class="form-check-input"
+                    type="radio"
+                    name="exampleRadios"
+                    id="exampleRadios2"
+                    value="option2"
+                  />
+                  <label class="form-check-label" for="exampleRadios2">
+                    Medium
+                  </label>
+                </div>
+                <div class="form-check">
+                  <input
+                    class="form-check-input"
+                    type="radio"
+                    name="exampleRadios"
+                    id="exampleRadios3"
+                    value="option3"
+                  />
+                  <label class="form-check-label" for="exampleRadios3">
+                    High
+                  </label>
+                </div>
+              </div>
+            </div> -->
           <div class="row">
             <hr width="200px" />
           </div>
@@ -67,9 +108,12 @@
               class="btn btn-success btn-lg"
               style="width: 100%"
             >
-              <div *ngIf="loadingSpinner" class="spinner-border" role="status">
-                <span class="sr-only">Loading...</span>
-              </div>
+              <ngx-spinner
+                size="medium"
+                color="#fff"
+                type="ball-scale-multiple"
+              >
+              </ngx-spinner>
               Search
             </button>
           </div>
@@ -183,6 +227,12 @@
             {{ infoContent }}
           </map-info-window>
         </map-marker>
+        <map-directions-renderer
+          [options]="renderOptions"
+          *ngFor="let directionsResult of directionsResults"
+          [directions]="directionsResult"
+        >
+        </map-directions-renderer>
       </google-map>
     </div>
   </div>
