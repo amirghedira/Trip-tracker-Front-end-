@@ -1,8 +1,10 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy, ViewChild } from '@angular/core';
 import { AuthService } from 'src/app/services/auth.service';
 import { Subscription } from 'rxjs';
 import { NgxSpinnerService } from "ngx-spinner";
 import { UserService } from '../../user.service'
+import { MapInfoWindow, MapMarker } from '@angular/google-maps';
+import { AfterViewInit } from '@angular/core';
 import Swal from 'sweetalert2'
 
 @Component({
@@ -33,6 +35,10 @@ export class HomeComponent implements OnInit {
     title: 'marker test',
     label: { text: 'label test', color: 'red' },
   }]
+  infoContent;
+  @ViewChild(MapInfoWindow, { static: false }) infoWindow: MapInfoWindow;
+  @ViewChild('map') googleMap;
+
   center: google.maps.LatLngLiteral
   options: google.maps.MapOptions = {
     scrollwheel: false,
@@ -46,6 +52,16 @@ export class HomeComponent implements OnInit {
   constructor(private authService: AuthService, private userService: UserService,
     private spinner: NgxSpinnerService) {
 
+  }
+
+
+  refreshMap(markers) {
+    const bounds = new window.google.maps.LatLngBounds()
+    markers.forEach(marker => {
+      const myLatLng = new window.google.maps.LatLng(marker.position.lat, marker.position.lng);
+      bounds.extend(myLatLng);
+    })
+    this.googleMap.fitBounds(bounds)
   }
 
   ngOnInit() {
@@ -83,6 +99,7 @@ export class HomeComponent implements OnInit {
       title: 'Marker title ' + (this.markers.length + 1),
       options: { animation: google.maps.Animation.BOUNCE },
     })
+    this.refreshMap(this.markers)
   }
 
   onGetSuggestion() {
@@ -93,7 +110,6 @@ export class HomeComponent implements OnInit {
       .subscribe((suggestion: any) => {
         this.loading = false
         this.suggestionID = suggestion.id
-        console.log(suggestion)
         this.rest = suggestion.rest
         this.fees = suggestion.startingBudget - suggestion.rest
         this.restaurants = suggestion.restaurants
@@ -107,6 +123,8 @@ export class HomeComponent implements OnInit {
           title: suggestion.hotelOffer.hotel.name,
           label: { text: 'hotel', color: 'red' },
         }]
+        this.refreshMap(this.markers)
+
       }, (err) => {
         console.log(err)
         this.spinner.hide()
@@ -118,49 +136,25 @@ export class HomeComponent implements OnInit {
   }
 
   bookSuggestion() {
-
     this.userService.bookSuggestion(this.suggestionID).subscribe(res => {
       console.log(res)
-      Swal.fire({
-        position: 'center',
-        icon: 'success',
-        title: 'You have booked successfully!',
-        showConfirmButton: false,
-        timer: 1500
-      })
     },
       (err) => {
         console.log(err)
-        Swal.fire({
-          position: 'center',
-          icon: 'error',
-          title: 'An error occurred, please try again!',
-          showConfirmButton: false,
-          timer: 1500
-        })
       })
   }
+  openInfoWindow(marker: MapMarker, index) {
+    /// stores the current index in forEach
+    this.infoContent = this.markers[index].title;
+    this.infoWindow.open(marker);
 
+  }
   addSuggestionTowish() {
     this.userService.addSuggestionToWishlist(this.suggestionID).subscribe(res => {
       console.log(res)
-      Swal.fire({
-        position: 'center',
-        icon: 'success',
-        title: 'Added to your wishlist!',
-        showConfirmButton: false,
-        timer: 1500
-      })
     },
       (err) => {
         console.log(err)
-        Swal.fire({
-          position: 'center',
-          icon: 'error',
-          title: 'An error occurred, please try again!',
-          showConfirmButton: false,
-          timer: 1500
-        })
       })
   }
 }
