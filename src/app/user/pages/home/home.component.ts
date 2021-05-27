@@ -17,23 +17,28 @@ import { map } from 'rxjs/operators';
   templateUrl: './home.component.html',
   styleUrls: ['./home.component.css']
 })
-export class HomeComponent implements OnInit {
+export class HomeComponent implements OnInit, OnDestroy {
   user: any;
   userSubscription: Subscription
   budget: number
   days: number
   fees: number
   loading: boolean = true
+  loadingSpinner: boolean = false
   rest: number
   hotelOffer: any
   suggestionID: string
   restaurants: any = []
+  recommendations: any = []
+  recommendationSubscription: Subscription
+
   suggestionError: boolean
   currency: string = 'TND'
   zoom = 12
   markers = []
   renderOptions = {
     suppressMarkers: true,
+    polylineOptions: { strokeColor: '#5cb85c' }
   }
   infoContent;
   @ViewChild(MapInfoWindow, { static: false }) infoWindow: MapInfoWindow;
@@ -56,6 +61,31 @@ export class HomeComponent implements OnInit {
 
   }
 
+  ngOnInit() {
+
+    this.userSubscription = this.authService.getCurrentUser().subscribe(
+      (data) => {
+        this.user = data;
+        this.userService.getRecommendations().subscribe((res: any) => {
+          console.log(res)
+          this.recommendations = res.slice(2)
+        },
+          (err) => {
+            console.log(err)
+          })
+      }
+    )
+    navigator.geolocation.getCurrentPosition((position) => {
+      this.center = {
+        lat: position.coords.latitude,
+        lng: position.coords.longitude,
+      }
+    })
+    // if (this.userService.viewOnMap)
+    //   this.recommendationSubscription = this.userService.getRecommendation().subscribe(recommendation => {
+    //     this.viewRecommendationOnMap(recommendation)
+    //   })
+  }
 
   refreshMap(markers) {
     const bounds = new window.google.maps.LatLngBounds()
@@ -66,20 +96,6 @@ export class HomeComponent implements OnInit {
     this.googleMap.fitBounds(bounds)
   }
 
-  ngOnInit() {
-
-    this.userSubscription = this.authService.getCurrentUser().subscribe(
-      (data) => {
-        this.user = data;
-      }
-    )
-    navigator.geolocation.getCurrentPosition((position) => {
-      this.center = {
-        lat: position.coords.latitude,
-        lng: position.coords.longitude,
-      }
-    })
-  }
 
   zoomIn() {
     if (this.zoom < this.options.maxZoom) this.zoom++
@@ -105,13 +121,14 @@ export class HomeComponent implements OnInit {
   }
 
   onGetSuggestion() {
-    this.spinner.show()
     this.loading = true
+    this.loadingSpinner = true
     this.suggestionError = false
     this.userService.getSuggestions(this.budget, this.days, this.currency)
       .subscribe((suggestion: any) => {
         console.log(suggestion)
         this.loading = false
+        this.loadingSpinner = false
         this.suggestionID = suggestion.id
         this.rest = suggestion.rest
         this.fees = suggestion.startingBudget - suggestion.rest
@@ -126,11 +143,12 @@ export class HomeComponent implements OnInit {
             animation: google.maps.Animation.DROP,
             draggable: false,
             icon: {
-              url: '../../../assets/img/PngItem_1760457.png',
-              scaledSize: { height: 90, width: 71 }
+              url: '../../../assets/img/picker1.png',
+              scaledSize: { height: 44, width: 30 }
             }
           },
-          duration: ''
+          duration: '',
+          name: suggestion.hotelOffer.hotel.name
 
         }]
         suggestion.restaurants.forEach(restaurant => {
@@ -143,11 +161,12 @@ export class HomeComponent implements OnInit {
               animation: google.maps.Animation.DROP,
               draggable: false,
               icon: {
-                url: '../../../assets/img/tript.png',
-                scaledSize: { height: 90, width: 40 }
+                url: '../../../assets/img/picker2.png',
+                scaledSize: { height: 44, width: 30 }
               }
             },
-            duration: ''
+            duration: '',
+            name: restaurant.name
           })
         });
         markers.forEach((marker, index) => {
@@ -169,10 +188,9 @@ export class HomeComponent implements OnInit {
 
       }, (err) => {
         console.log(err)
-        this.spinner.hide()
+        this.loadingSpinner = false
         this.suggestionError = true
       }, () => {
-        this.spinner.hide()
 
       })
   }
@@ -201,7 +219,8 @@ export class HomeComponent implements OnInit {
   }
   openInfoWindow(marker: MapMarker, index) {
     /// stores the current index in forEach
-    this.infoContent = this.markers[index].duration;
+    console.log(this.markers)
+    this.infoContent = this.markers[index].name + ' ' + this.markers[index].duration;
     this.infoWindow.open(marker);
 
   }
@@ -226,5 +245,71 @@ export class HomeComponent implements OnInit {
           timer: 1500
         })
       })
+  }
+  viewRecommendationOnMap(suggestion: any) {
+    this.loading = false;
+    this.suggestionID = suggestion.id
+    this.rest = suggestion.rest
+    this.fees = suggestion.startingBudget - suggestion.rest
+    this.restaurants = suggestion.restaurants
+    this.hotelOffer = suggestion.hotelOffer
+    let markers = [{
+      position: {
+        lng: suggestion.hotelOffer.hotel.longitude,
+        lat: suggestion.hotelOffer.hotel.latitude
+      },
+      options: {
+        animation: google.maps.Animation.DROP,
+        draggable: false,
+        icon: {
+          url: '../../../assets/img/picker1.png',
+          scaledSize: { height: 44, width: 30 }
+        }
+      },
+      duration: '',
+      name: suggestion.hotelOffer.hotel.name
+
+    }]
+    suggestion.restaurants.forEach(restaurant => {
+      markers.push({
+        position: {
+          lng: +restaurant.location.longitude,
+          lat: +restaurant.location.latitude
+        },
+        options: {
+          animation: google.maps.Animation.DROP,
+          draggable: false,
+          icon: {
+            url: '../../../assets/img/picker2.png',
+            scaledSize: { height: 44, width: 30 }
+          }
+        },
+        duration: '',
+        name: restaurant.name
+      })
+    });
+    markers.forEach((marker, index) => {
+      if (index > 0) {
+        const request: google.maps.DirectionsRequest = {
+          destination: marker.position,
+          origin: markers[0].position,
+          travelMode: google.maps.TravelMode.DRIVING
+        };
+        this.mapDirectionsService.route(request)
+          .subscribe(response => {
+            marker.duration = response.result.routes[0].legs[0].duration.text
+            this.directionsResults.push(response.result)
+          })
+      }
+    })
+    this.markers = markers
+    this.refreshMap(this.markers)
+  }
+  deleteRecommendation(id: string) {
+    console.log(id)
+    this.recommendations = this.recommendations.filter(rec => rec.id !== id)
+  }
+  ngOnDestroy() {
+    // this.recommendationSubscription.unsubscribe();
   }
 }

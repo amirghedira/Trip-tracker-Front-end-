@@ -2,6 +2,8 @@ import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { AuthService } from 'src/app/services/auth.service';
 import { UserService } from '../../user.service';
+import Swal from 'sweetalert2'
+
 @Component({
   selector: 'app-profile',
   templateUrl: './profile.component.html',
@@ -38,9 +40,11 @@ export class ProfileComponent implements OnInit, OnDestroy {
   constructor(private userService: UserService, private authService: AuthService) { }
 
   ngOnInit(): void {
-    this.userSubscription = this.authService.getCurrentUser().subscribe(
+    this.userSubscription = this.authService.getConnectedUser().subscribe(
       (data: any) => {
+        console.log(data)
         this.user = data;
+        this.imageUrl = data.avatar
         this.firstName = data.firstName
       }
     )
@@ -122,6 +126,30 @@ export class ProfileComponent implements OnInit, OnDestroy {
       this.invalidPasswordMatch = true
     }
   }
+
+  handlefileInput(event) {
+    if (event.item(0).type.includes('image')) {
+      try {
+        this.fileUpload = event.item(0);
+        var reader = new FileReader();
+        reader.onload = (event: any) => {
+          this.imageUrl = event.target.result;
+        };
+        reader.readAsDataURL(this.fileUpload);
+        const formData = new FormData();
+        formData.append('file', this.fileUpload);
+        this.userService.updateProfilePicture(formData).subscribe(
+          (data) => {
+            console.log(data)
+          },
+          (err) => { console.log(err) },
+        );
+      } catch (err) { }
+    } else {
+      Swal.fire('Oops...', 'Incorrect format type', 'info');
+    }
+  }
+
   ngOnDestroy() {
     this.userSubscription.unsubscribe();
   }

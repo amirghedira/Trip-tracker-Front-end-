@@ -1,0 +1,9 @@
+.input-file {
+  position: absolute;
+  right: 0;
+  top: 105px;
+  opacity: 0;
+}
+.cam {
+  cursor: pointer;
+}

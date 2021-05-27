@@ -1,4 +1,8 @@
-<div class="container-fluid" style="padding-top: 150px; min-height: 100vh">
+<div
+  *ngIf="user"
+  class="container-fluid"
+  style="padding-top: 150px; min-height: 100vh"
+>
   <div class="container">
     <div class="row flex-lg-nowrap">
       <div class="col">
@@ -21,7 +25,7 @@
                         >
                           <img
                             class="image-fluid"
-                            [src]="user.avatar"
+                            [src]="imageUrl"
                             style="
                               height: 150px;
                               width: 150px;
@@ -34,9 +38,12 @@
                           style="margin-top: -1.5rem; margin-left: 0.4rem"
                         >
                           <a>
-                            <i class="fa fa-camera p-1">
-                              <input type="file" style="display: none" />
-                            </i>
+                            <i class="fa fa-camera p-1 cam"> </i>
+                            <input
+                              type="file"
+                              class="input-file"
+                              (change)="handlefileInput($event.target.files)"
+                            />
                           </a>
                         </div>
                       </div>
@@ -279,43 +286,6 @@
                           </div>
                         </div>
                         <hr />
-                        <!-- <div class="row" style="margin-bottom: -1rem">
-                          <div class="col-md-4 text-center">
-                            <p>Date De Naissance</p>
-                          </div>
-                          <div class="col-md-4 text-center">
-                            <input
-                              *ngIf="editBirthday"
-                              class="form-control d-inline mr-1 mb-3"
-                              type="text"
-                              name="birth"
-                              [(ngModel)]="user.birthDate"
-                              style="width: 10rem; margin-top: -0.2rem"
-                            />
-                            <h6
-                              class="py-1 mb-3"
-                              style="margin: 0"
-                              *ngIf="!editBirthday"
-                            >
-                              {{ user.birthDate }}
-                            </h6>
-                          </div>
-                          <div class="col-md-4 text-center">
-                            <button
-                              class="btn btn-secondary btn-sm"
-                              style="margin-top: -0.2rem"
-                            >
-                              {{ editBirthday ? "Cancel" : "Edit" }}
-                            </button>
-                            <button
-                              *ngIf="editBirthday"
-                              class="btn btn-success btn-sm"
-                              style="margin-top: -0.2rem"
-                            >
-                              Save
-                            </button>
-                          </div>
-                        </div> -->
                       </div>
                     </div>
                   </div>

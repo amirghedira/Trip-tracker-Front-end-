@@ -3,6 +3,9 @@
   style="min-height: 100vh; padding-top: 120px"
 >
   <div class="" *ngIf="!loading">
+    <div class="row justify-content-center mb-4">
+      <h4>Wishlist</h4>
+    </div>
     <div class="row" *ngIf="suggestions.length > 0; else empty">
       <div *ngFor="let suggestion of suggestions" class="col-md-4">
         <div class="card" style="width: 18rem">
@@ -61,6 +64,12 @@
               (click)="bookSuggestion(recommendation.id)"
               style="cursor: pointer"
               >Book now</a
+            >
+            <a
+              class="card-link"
+              (click)="viewRecommendationOnMap(recommendation)"
+              style="cursor: pointer"
+              >View on map</a
             >
           </div>
         </div>

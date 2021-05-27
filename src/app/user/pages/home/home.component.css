@@ -47,3 +47,18 @@
 .btns {
   padding: 5px 15px;
 }
+.recommendations-container {
+  position: absolute;
+  bottom: 20px;
+  z-index: 33;
+  left: -50px;
+}
+.suggestion-title {
+  display: flex;
+  justify-content: space-around;
+}
+.close-btn {
+  font-size: 20px;
+  color: red;
+  cursor: pointer;
+}

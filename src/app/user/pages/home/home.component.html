@@ -38,48 +38,7 @@
               />
             </div>
           </div>
-          <!-- <div class="row">
-              <div class="col radio-container">
-                <label class="label">Choose a range</label>
-                <div class="form-check">
-                  <input
-                    class="form-check-input"
-                    type="radio"
-                    name="exampleRadios"
-                    id="exampleRadios1"
-                    value="option1"
-                    checked
-                  />
-                  <label class="form-check-label" for="exampleRadios1">
-                    Low
-                  </label>
-                </div>
-                <div class="form-check">
-                  <input
-                    class="form-check-input"
-                    type="radio"
-                    name="exampleRadios"
-                    id="exampleRadios2"
-                    value="option2"
-                  />
-                  <label class="form-check-label" for="exampleRadios2">
-                    Medium
-                  </label>
-                </div>
-                <div class="form-check">
-                  <input
-                    class="form-check-input"
-                    type="radio"
-                    name="exampleRadios"
-                    id="exampleRadios3"
-                    value="option3"
-                  />
-                  <label class="form-check-label" for="exampleRadios3">
-                    High
-                  </label>
-                </div>
-              </div>
-            </div> -->
+
           <div class="row">
             <hr width="200px" />
           </div>
@@ -103,19 +62,16 @@
             <hr width="200px" />
           </div>
           <div class="row">
-            <button
+            <div
               (click)="onGetSuggestion()"
               class="btn btn-success btn-lg"
               style="width: 100%"
             >
-              <ngx-spinner
-                size="medium"
-                color="#fff"
-                type="ball-scale-multiple"
-              >
-              </ngx-spinner>
               Search
-            </button>
+              <div *ngIf="loadingSpinner" class="spinner-border" role="status">
+                <span class="sr-only">Loading...</span>
+              </div>
+            </div>
           </div>
           <div *ngIf="!loading" class="row" style="width: 100%">
             <div class="col-md-12">
@@ -206,6 +162,53 @@
       </div>
     </div>
     <div class="col-md-8 p-0">
+      <div
+        class="row recommendations-container"
+        *ngIf="recommendations.length > 0"
+      >
+        <div *ngFor="let recommendation of recommendations" class="col-md-5">
+          <div class="card" style="width: 20rem; margin-left: 5rem">
+            <div class="card-body">
+              <div class="row suggestion-title">
+                <h6 class="card-title">{{ recommendation.id }}</h6>
+                <i
+                  (click)="deleteRecommendation(recommendation.id)"
+                  class="fa fa-times close-btn"
+                  aria-hidden="true"
+                ></i>
+              </div>
+              <h5 class="card-subtitle mb-2 text-muted">
+                Arrival: {{ recommendation.flightOffer.arrivalCountry }}
+              </h5>
+              <p class="card-text">
+                Hotel {{ recommendation.hotelOffer.hotel.name }}
+              </p>
+              <p class="card-text">
+                Trip Fees:
+                {{
+                  (recommendation.startingBudget - recommendation.rest).toFixed(
+                    2
+                  )
+                }}
+              </p>
+              <a
+                class="card-link"
+                (click)="bookSuggestion()"
+                style="cursor: pointer"
+                *ngIf="!recommendation.booked"
+                >Book now</a
+              >
+              <a
+                class="card-link"
+                (click)="viewRecommendationOnMap(recommendation)"
+                style="cursor: pointer"
+                *ngIf="!recommendation.booked"
+                >View on map</a
+              >
+            </div>
+          </div>
+        </div>
+      </div>
       <google-map
         #map
         height="100%"

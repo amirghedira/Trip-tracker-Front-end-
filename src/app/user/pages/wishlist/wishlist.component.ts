@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from "@angular/router"
 import { UserService } from '../../user.service';
+
 import Swal from 'sweetalert2'
 
 @Component({
@@ -11,7 +13,7 @@ export class WishlistComponent implements OnInit {
   suggestions: any = []
   loading: boolean = false
   recommendations: any = []
-  constructor(private userService: UserService) { }
+  constructor(private userService: UserService, private router: Router) { }
 
   ngOnInit(): void {
     this.loading = true
@@ -63,4 +65,10 @@ export class WishlistComponent implements OnInit {
       console.log(err)
     })
   }
+  viewRecommendationOnMap(recommendation: any) {
+    this.userService.setRecommendation(recommendation)
+    this.router.navigate(['/user/home'])
+
+  }
+
 }
